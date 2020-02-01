@@ -1,5 +1,6 @@
 import { GameObject } from "./GameObject";
 import { spriteAssets } from "../../assets/index";
+import { speedFactor } from "../data/Global";
 
 export class Train extends GameObject {
   private static bodySpriteKey = spriteAssets.trainBody.toString();
@@ -25,7 +26,7 @@ export class Train extends GameObject {
   };
 
   public setSpeed = (newSpeed: number) => {
-    this.speed = newSpeed * 0.01;
+    this.speed = newSpeed * speedFactor;
   };
 
   public playIntroAnimation = (dt: number, onAnimationEnd?: () => void) => {
