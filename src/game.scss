@@ -37,7 +37,7 @@ body {
   display: none;
 }
 
-@media (max-width: 900px) and (orientation: portrait) {
+@media (max-width: 1024px) and (orientation: portrait) {
   .turn-your-device {
     background: green;
     width: 100%;
