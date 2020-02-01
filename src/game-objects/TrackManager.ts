@@ -6,21 +6,14 @@ export class TrackManager extends GameObject {
   // private trackData: TrackData;
   // private eightNote: number = 0;
 
-  private tableGroup: TableGroup = new TableGroup();
+  private railTables: TableGroup;
 
-  public load = (scene: Phaser.Scene) => {
-    this.tableGroup.load(scene);
-  };
+  public load = (scene: Phaser.Scene) => {};
 
-  public initialize = (scene: Phaser.Scene) => {
-    this.tableGroup.initialize(scene);
-  };
+  public initialize = (scene: Phaser.Scene) => {};
 
-  public update = (dt: number) => {
-    this.tableGroup.group.children.iterate(child => {
-      const childImage = <Phaser.GameObjects.Image>child;
-      childImage.setPosition(childImage.x - dt * 0.5, childImage.y);
-    });
+  public setRailTables = (newRailTables: TableGroup) => {
+    this.railTables = newRailTables;
   };
 
   public loadTrack = (newTrackData?: TrackData) => {
@@ -35,7 +28,7 @@ export class TrackManager extends GameObject {
     const distanceBetweenTables = 150;
 
     for (let i = 0; i <= tablesToSpawn; i++) {
-      this.tableGroup.create(500 + distanceBetweenTables * i, 550);
+      this.railTables.create(true, 500 + distanceBetweenTables * i, 550);
     }
   };
 }

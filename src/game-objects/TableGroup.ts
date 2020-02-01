@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import { spriteAssets } from "../../assets";
 import { GameObject } from "./GameObject";
+import { speedFactor } from "../data/Global";
 
 export class TableGroup extends GameObject {
   public static spriteKey: string = spriteAssets.table.toString();
