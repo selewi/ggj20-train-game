@@ -13,7 +13,7 @@ export class MenuScene extends Phaser.Scene {
       Phaser.Math.Between(0, game.scale.height),
       100,
       100,
-      0x1212de
+      0x1212de,
     );
 
     this.input.once("pointerdown", () => this.scene.start(GameplayScene.name));
@@ -27,5 +27,5 @@ export class MenuScene extends Phaser.Scene {
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: MenuScene.name
+  key: MenuScene.name,
 };
