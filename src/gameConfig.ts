@@ -1,5 +1,6 @@
 import * as Phaser from "phaser";
 import { gameScenes } from "./scenes";
+import "./game.scss";
 
 export const gameConfig: Phaser.Types.Core.GameConfig = {
   title: "Sample",
