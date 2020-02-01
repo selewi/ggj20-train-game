@@ -1,42 +1,42 @@
 import * as Phaser from "phaser";
-import { HUDScene, HUDSceneEvents } from "./HUDScene";
-import { Skull } from "../game-objects/Skull";
+import { SectionGroup } from "../game-objects/TableGroup";
 
 export class GameplayScene extends Phaser.Scene {
-  private score: number = 0;
-
-  private hud: Phaser.Scene;
-  private skull = new Skull();
+  private currentTimePassed = 0;
+  private sectionGroup = new SectionGroup();
 
   constructor() {
     super(sceneConfig);
   }
 
   public preload() {
-    this.skull.load(this);
+    this.sectionGroup.load(this);
   }
 
   public create() {
-    this.skull.initialize(this);
-    this.hud = this.scene.get(HUDScene.name);
-    this.scene.launch(HUDScene.name);
-
-    this.add.rectangle(400, 400, 100, 100, 0xffffff);
-    this.input.on("pointerdown", this.addScore);
+    this.sectionGroup.initialize(this);
   }
 
   public update(dt: number) {
-    // TODO
-  }
+    this.currentTimePassed += dt * 1000000;
 
-  private addScore = () => {
-    this.score += 1;
-    this.hud.events.emit(HUDSceneEvents.updateScoreText, this.score);
-  };
+    console.log(this.currentTimePassed);
+
+    if (this.currentTimePassed >= 1) {
+      this.currentTimePassed = 0;
+
+      this.sectionGroup.create([
+        Math.random() > 0.5 ? true : false,
+        Math.random() > 0.5 ? true : false,
+        Math.random() > 0.5 ? true : false,
+        Math.random() > 0.5 ? true : false,
+      ]);
+    }
+  }
 }
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: GameplayScene.name
+  key: GameplayScene.name,
 };
