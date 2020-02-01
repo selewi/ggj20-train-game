@@ -18,15 +18,15 @@ export class GameplayScene extends Phaser.Scene {
 
   public preload() {
     this.skull.load(this);
-    this.train.load(this);
     this.rails.load(this);
+    this.train.load(this);
   }
 
   public create() {
     this.skull.initialize(this);
+    this.rails.initialize(this);
     this.train.initialize(this);
 
-    this.rails.initialize(this);
     this.hud = this.scene.get(HUDScene.name);
     this.scene.launch(HUDScene.name);
 
