@@ -12,11 +12,16 @@ export class Rails extends GameObject {
   };
 
   public initialize = (scene: Phaser.Scene) => {
-    const railScale = { x: 3.5, y: 1 };
-    const railOrigin = { x: 0.5, y: 0.5 };
+    const railOrigin = { x: 0, y: 0 };
 
-    this.topRail = scene.add.sprite(200, 600, Rails.spriteKey);
-    this.bottomRail = scene.add.sprite(200, 500, Rails.spriteKey);
+    this.topRail = scene.add.sprite(0, 600, Rails.spriteKey);
+    this.bottomRail = scene.add.sprite(0, 500, Rails.spriteKey);
+
+    const railScale = {
+      x: Math.round(scene.scale.width / this.topRail.width),
+      y: 1
+    };
+
     this.topRail
       .setScale(railScale.x, railScale.y)
       .setOrigin(railOrigin.x, railOrigin.y);
