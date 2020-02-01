@@ -4,6 +4,7 @@ import { Train } from "../game-objects/Train";
 import { Rails } from "../game-objects/Rails";
 import { TrackManager } from "../game-objects/TrackManager";
 import { TableGroup } from "../game-objects/TableGroup";
+import { trackData } from "../../assets/sound/track_1/";
 
 enum GameplaySceneState {
   gameStart,
@@ -27,7 +28,7 @@ export class GameplayScene extends Phaser.Scene {
   }
 
   public preload() {
-    this.trackManager.load(this);
+    this.trackManager.load(this, trackData);
     this.rails.load(this);
     this.train.load(this);
     this.railTables.load(this);
@@ -36,9 +37,8 @@ export class GameplayScene extends Phaser.Scene {
   public create() {
     this.railTables.initialize(this);
 
-    this.trackManager.initialize(this);
     this.trackManager.setRailTables(this.railTables);
-    this.trackManager.loadTrack();
+    this.trackManager.initialize(this);
 
     this.rails.initialize(this);
 
