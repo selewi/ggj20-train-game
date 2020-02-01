@@ -96,5 +96,9 @@ body {
       margin-top: calc(1vh + 1vw);
       width: 50%;
     }
+
+    @media (min-width: 600px) {
+      background-size: cover;
+    }
   }
 }
