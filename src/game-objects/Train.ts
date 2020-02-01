@@ -11,6 +11,20 @@ export class Train extends GameObject {
   };
 
   public initialize = (scene: Phaser.Scene) => {
-    this.trainParts.push(scene.add.image(0, 0, Train.bodySpriteKey));
+    this.trainParts.push(scene.add.image(0, 500, Train.bodySpriteKey));
+
+    this.trainParts.forEach(trainPart => {
+      trainPart.setOrigin(0.5, 1);
+    });
+  };
+
+  public update = (dt: number) => {
+    this.trainParts.forEach(trainPart => {
+      const localPosition = trainPart.getBottomCenter();
+      trainPart.setPosition(
+        localPosition.x,
+        localPosition.y + Math.sin(dt * 0.01)
+      );
+    });
   };
 }

@@ -31,7 +31,7 @@ export class GameplayScene extends Phaser.Scene {
   }
 
   public update(dt: number) {
-    // TODO
+    this.train.update(dt);
   }
 
   private addScore = () => {
