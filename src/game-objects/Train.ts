@@ -7,7 +7,7 @@ export class Train extends GameObject {
 
   private trainParts: Array<Phaser.GameObjects.Image> = [];
 
-  private requiredIntroDistance = 350;
+  private requiredIntroDistance = 400;
   private timeAccumulator = 0;
   private speed = 0;
 
@@ -16,12 +16,11 @@ export class Train extends GameObject {
   };
 
   public initialize = (scene: Phaser.Scene) => {
-    this.trainParts.push(scene.add.image(0, 500, Train.bodySpriteKey));
+    this.trainParts.push(scene.add.image(0, 630, Train.bodySpriteKey));
 
-    const screenOffset = 50;
     this.trainParts.forEach(trainPart => {
       trainPart.setOrigin(0.5, 1);
-      trainPart.setPosition(-trainPart.width / 2 - screenOffset, 500);
+      trainPart.setPosition(-trainPart.width / 2, 630);
     });
   };
 
