@@ -17,6 +17,9 @@ body {
   background-size: contain;
   //   opacity: 0.5;
   margin: 0;
+  @media (max-width: 1366px) {
+    background-size: cover;
+  }
 }
 
 #game {
@@ -50,9 +53,34 @@ body {
   text-align: center;
 }
 
+.device-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8vh 4vh;
+  border-radius: 20px;
+  width: 80%;
+  background: rgb(63, 60, 65);
+  background: linear-gradient(
+    110deg,
+    rgba(63, 60, 65, 1) 0%,
+    rgba(221, 221, 221, 1) 20%,
+    rgba(164, 164, 164, 1) 45%,
+    rgba(158, 158, 158, 1) 52%,
+    rgba(173, 173, 173, 1) 58%,
+    rgba(230, 230, 230, 1) 80%,
+    rgba(124, 124, 124, 1) 100%
+  );
+  img {
+    width: 80%;
+  }
+}
+
 @media (max-width: 1024px) and (orientation: portrait) {
   .turn-your-device {
-    background: green;
+    background: black;
+    background-image: url("/assets/background.gif");
     width: 100%;
     height: 100%;
     position: absolute;
@@ -62,8 +90,11 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     span {
+      color: black;
       margin-top: calc(1vh + 1vw);
+      width: 50%;
     }
   }
 }
