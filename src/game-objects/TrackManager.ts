@@ -25,7 +25,7 @@ export class TrackManager extends GameObject {
     const eightNoteAmountPerSection = 16;
 
     const tablesToSpawn = eightNoteAmountPerSection * songSectionAmount;
-    const distanceBetweenTables = 150;
+    const distanceBetweenTables = 200;
 
     for (let i = 0; i <= tablesToSpawn; i++) {
       this.railTables.create(500 + distanceBetweenTables * i, 550);

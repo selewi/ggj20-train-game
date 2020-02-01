@@ -30,7 +30,7 @@ export class Train extends GameObject {
 
   public playIntroAnimation = (dt: number, onAnimationEnd?: () => void) => {
     this.timeAccumulator += dt;
-    this.requiredIntroDistance -= this.timeAccumulator * 0.001;
+    this.requiredIntroDistance -= this.timeAccumulator * 0.01;
 
     if (this.requiredIntroDistance <= 0) {
       this.timeAccumulator = 0;
@@ -41,7 +41,7 @@ export class Train extends GameObject {
     this.trainParts.forEach(trainPart => {
       const localPosition = trainPart.getBottomCenter();
       trainPart.setPosition(
-        localPosition.x + this.timeAccumulator * 0.001,
+        localPosition.x + this.timeAccumulator * 0.01,
         localPosition.y + Math.sin(this.timeAccumulator * 0.025 * this.speed)
       );
     });
