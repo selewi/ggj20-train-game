@@ -7,6 +7,8 @@ export class TableGroup extends GameObject {
 
   public group: Phaser.GameObjects.Group;
 
+  private speed: number = 0;
+
   public load = (scene: Phaser.Scene) => {
     scene.load.image(TableGroup.spriteKey, spriteAssets.table);
   };
@@ -16,6 +18,23 @@ export class TableGroup extends GameObject {
   };
 
   public create(positionX: number, positionY: number) {
-    this.group.create(positionX, positionY, TableGroup.spriteKey);
+    const table: Phaser.GameObjects.Image = this.group.create(
+      positionX,
+      positionY,
+      TableGroup.spriteKey,
+    );
+
+    table.setOrigin(0.1, 0);
+  }
+
+  public setSpeed(newSpeed: number) {
+    this.speed = newSpeed * speedFactor;
+  }
+
+  public move(dt: number, move: boolean = true) {
+    this.group.children.iterate(child => {
+      const childImage = <Phaser.GameObjects.Image>child;
+      childImage.setPosition(childImage.x - dt * this.speed, childImage.y);
+    });
   }
 }
