@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import { HUDScene, HUDSceneEvents } from "./HUDScene";
 import { Train } from "../game-objects/Train";
 import { Rails } from "../game-objects/Rails";
+import { TrackManager } from "../game-objects/TrackManager";
 
 enum GameplaySceneState {
   gameStart,
@@ -16,6 +17,7 @@ export class GameplayScene extends Phaser.Scene {
   private train = new Train();
   private rails = new Rails();
 
+  private trackManager: TrackManager = new TrackManager();
   private currentState: GameplaySceneState = GameplaySceneState.gameStart;
 
   constructor() {
@@ -23,11 +25,13 @@ export class GameplayScene extends Phaser.Scene {
   }
 
   public preload() {
+    this.trackManager.load(this);
     this.rails.load(this);
     this.train.load(this);
   }
 
   public create() {
+    this.trackManager.initialize(this);
     this.rails.initialize(this);
     this.train.initialize(this);
 
@@ -36,6 +40,8 @@ export class GameplayScene extends Phaser.Scene {
 
     this.add.rectangle(400, 400, 100, 100, 0xffffff);
     this.input.on("pointerdown", this.addScore);
+
+    this.trackManager.loadTrack();
   }
 
   public update(dt: number) {

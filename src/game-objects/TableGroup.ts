@@ -12,7 +12,7 @@ export class TableGroup extends GameObject {
   };
 
   public initialize = (scene: Phaser.Scene) => {
-    this.group = scene.physics.add.staticGroup();
+    this.group = scene.add.group();
   };
 
   public create(positionX: number, positionY: number) {
