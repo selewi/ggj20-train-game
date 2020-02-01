@@ -3,12 +3,20 @@ import { HUDScene, HUDSceneEvents } from "./HUDScene";
 import { Skull } from "../game-objects/Skull";
 import { Train } from "../game-objects/Train";
 
+enum GameplaySceneState {
+  gameStart,
+  gameplay,
+  gameEnd
+}
+
 export class GameplayScene extends Phaser.Scene {
   private score: number = 0;
 
   private hud: Phaser.Scene;
   private skull = new Skull();
   private train = new Train();
+
+  private currentState: GameplaySceneState = GameplaySceneState.gameStart;
 
   constructor() {
     super(sceneConfig);
@@ -31,8 +39,30 @@ export class GameplayScene extends Phaser.Scene {
   }
 
   public update(dt: number) {
-    this.train.update(dt);
+    switch (this.currentState) {
+      case GameplaySceneState.gameStart:
+        this.handleGameStart(dt);
+        break;
+      case GameplaySceneState.gameplay:
+        this.handleGameplay(dt);
+        break;
+      case GameplaySceneState.gameEnd:
+        break;
+    }
   }
+
+  private handleGameStart = (dt: number) => {
+    this.train.playIntroAnimation(
+      dt,
+      () => (this.currentState = GameplaySceneState.gameplay)
+    );
+  };
+
+  private handleGameplay = (dt: number) => {
+    this.train.playMoveAnimation(dt, 120);
+  };
+
+  // private handleGameEnd = (dt: number) => {};
 
   private addScore = () => {
     this.score += 1;
