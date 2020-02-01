@@ -11,8 +11,16 @@ export class TrackManager extends GameObject {
   public load = (scene: Phaser.Scene) => {
     this.tableGroup.load(scene);
   };
+
   public initialize = (scene: Phaser.Scene) => {
     this.tableGroup.initialize(scene);
+  };
+
+  public update = (dt: number) => {
+    this.tableGroup.group.children.iterate(child => {
+      const childImage = <Phaser.GameObjects.Image>child;
+      childImage.setPosition(childImage.x - dt * 0.5, childImage.y);
+    });
   };
 
   public loadTrack = (newTrackData?: TrackData) => {

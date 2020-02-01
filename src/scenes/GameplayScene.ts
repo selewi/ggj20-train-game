@@ -66,6 +66,7 @@ export class GameplayScene extends Phaser.Scene {
   };
 
   private handleGameplay = (dt: number) => {
+    this.trackManager.update(dt);
     this.train.playMoveAnimation(dt);
   };
 
