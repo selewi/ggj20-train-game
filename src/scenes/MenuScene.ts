@@ -1,31 +1,37 @@
 import * as Phaser from "phaser";
+import { Button } from "../UI/Button";
 import { GameplayScene } from "./GameplayScene";
 import { game } from "../main";
 
 export class MenuScene extends Phaser.Scene {
+  private playButton: Button = new Button();
+
   constructor() {
     super(sceneConfig);
   }
 
+  public preload() {
+    this.playButton.load(this);
+  }
+
   public create() {
-    this.add.rectangle(
-      Phaser.Math.Between(0, game.scale.width),
-      Phaser.Math.Between(0, game.scale.height),
-      100,
-      100,
-      0x1212de,
-    );
-
-    this.input.once("pointerdown", () => this.scene.start(GameplayScene.name));
+    this.playButton.initialize(this, {
+      text: "Start Ride",
+      position: {
+        x: game.scale.width / 2,
+        y: game.scale.height / 2
+      },
+      onClick: this.startGame
+    });
   }
 
-  public update() {
-    // TODO
-  }
+  private startGame = () => {
+    this.scene.start(GameplayScene.name);
+  };
 }
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: MenuScene.name,
+  key: MenuScene.name
 };
