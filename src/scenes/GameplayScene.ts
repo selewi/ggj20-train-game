@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import { HUDScene, HUDSceneEvents } from "./HUDScene";
 import { Skull } from "../game-objects/Skull";
 import { Train } from "../game-objects/Train";
+import { Rails } from "../game-objects/Rails";
 
 export class GameplayScene extends Phaser.Scene {
   private score: number = 0;
@@ -9,6 +10,7 @@ export class GameplayScene extends Phaser.Scene {
   private hud: Phaser.Scene;
   private skull = new Skull();
   private train = new Train();
+  private rails = new Rails();
 
   constructor() {
     super(sceneConfig);
@@ -17,12 +19,14 @@ export class GameplayScene extends Phaser.Scene {
   public preload() {
     this.skull.load(this);
     this.train.load(this);
+    this.rails.load(this);
   }
 
   public create() {
     this.skull.initialize(this);
     this.train.initialize(this);
 
+    this.rails.initialize(this);
     this.hud = this.scene.get(HUDScene.name);
     this.scene.launch(HUDScene.name);
 
