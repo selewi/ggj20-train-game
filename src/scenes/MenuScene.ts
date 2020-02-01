@@ -19,7 +19,7 @@ export class MenuScene extends Phaser.Scene {
       text: "Start Ride",
       position: {
         x: game.scale.width / 2,
-        y: game.scale.height / 2
+        y: game.scale.height * 0.75
       },
       onClick: this.startGame
     });
