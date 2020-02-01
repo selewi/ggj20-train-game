@@ -28,7 +28,7 @@ export class TrackManager extends GameObject {
     const distanceBetweenTables = 200;
 
     for (let i = 0; i <= tablesToSpawn; i++) {
-      this.railTables.create(500 + distanceBetweenTables * i, 550);
+      this.railTables.create(true, 500 + distanceBetweenTables * i, 550);
     }
   };
 }

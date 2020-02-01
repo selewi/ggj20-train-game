@@ -18,14 +18,19 @@ export class TableGroup extends GameObject {
     this.group = scene.add.group();
   };
 
-  public create(positionX: number, positionY: number) {
-    const table: Phaser.GameObjects.Image = this.group.create(
-      positionX,
-      positionY,
-      TableGroup.spriteKey
-    );
+  public create(hasRemache: boolean, positionX: number, positionY: number) {
+    if (hasRemache) {
+      const table: Phaser.GameObjects.Image = this.group.create(
+        positionX,
+        positionY,
+        TableGroup.spriteKey,
+      );
+      table.setOrigin(0.1, 0);
 
-    table.setOrigin(0.1, 0);
+      // Dibujar remache
+    } else {
+      // Dibujar remache vacio
+    }
   }
 
   public setSpeed(newSpeed: number) {
