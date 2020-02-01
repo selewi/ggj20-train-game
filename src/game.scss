@@ -25,6 +25,10 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid green;
+    @media (min-width: 900px) and (max-width: 1366px) and (orientation: landscape) {
+      width: 100%;
+      height: auto;
+    }
 
     @media (aspect-ratio: 16/9) {
       width: 100%;
