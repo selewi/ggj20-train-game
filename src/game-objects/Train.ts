@@ -7,6 +7,8 @@ export class Train extends GameObject {
   private trainParts: Array<Phaser.GameObjects.Image> = [];
 
   private requiredIntroDistance = 350;
+  private timeAccumulator = 0;
+  private speed = 0;
 
   public load = (scene: Phaser.Scene) => {
     scene.load.image(Train.bodySpriteKey, spriteAssets.trainBody);
@@ -22,10 +24,16 @@ export class Train extends GameObject {
     });
   };
 
+  public setSpeed = (newSpeed: number) => {
+    this.speed = newSpeed * 0.01;
+  };
+
   public playIntroAnimation = (dt: number, onAnimationEnd?: () => void) => {
-    this.requiredIntroDistance -= dt * 0.001;
+    this.timeAccumulator += dt;
+    this.requiredIntroDistance -= this.timeAccumulator * 0.001;
 
     if (this.requiredIntroDistance <= 0) {
+      this.timeAccumulator = 0;
       onAnimationEnd && onAnimationEnd();
       return;
     }
@@ -33,18 +41,20 @@ export class Train extends GameObject {
     this.trainParts.forEach(trainPart => {
       const localPosition = trainPart.getBottomCenter();
       trainPart.setPosition(
-        localPosition.x + dt * 0.001,
-        localPosition.y + Math.sin(dt * 0.025)
+        localPosition.x + this.timeAccumulator * 0.001,
+        localPosition.y + Math.sin(this.timeAccumulator * 0.025 * this.speed)
       );
     });
   };
 
-  public playMoveAnimation = (dt: number, speed: number) => {
+  public playMoveAnimation = (dt: number) => {
+    this.timeAccumulator += dt;
+
     this.trainParts.forEach(trainPart => {
       const localPosition = trainPart.getBottomCenter();
       trainPart.setPosition(
         localPosition.x,
-        localPosition.y + Math.sin(dt * 0.01 * speed * 0.01)
+        localPosition.y + Math.sin(this.timeAccumulator * 0.025 * this.speed)
       );
     });
   };

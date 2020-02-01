@@ -24,10 +24,10 @@ export class TrackManager extends GameObject {
     const eightNoteAmountPerSection = 16;
 
     const tablesToSpawn = eightNoteAmountPerSection * songSectionAmount;
-    const distanceBetweenTables = 64;
+    const distanceBetweenTables = 150;
 
     for (let i = 0; i <= tablesToSpawn; i++) {
-      this.tableGroup.create(500 + distanceBetweenTables * i, 250);
+      this.tableGroup.create(500 + distanceBetweenTables * i, 550);
     }
   };
 }

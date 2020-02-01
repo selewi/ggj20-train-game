@@ -32,19 +32,20 @@ export class GameplayScene extends Phaser.Scene {
 
   public create() {
     this.trackManager.initialize(this);
+    this.trackManager.loadTrack();
+
     this.rails.initialize(this);
+
     this.train.initialize(this);
+    this.train.setSpeed(120);
 
     this.hud = this.scene.get(HUDScene.name);
     this.scene.launch(HUDScene.name);
 
-    this.add.rectangle(400, 400, 100, 100, 0xffffff);
     this.input.on("pointerdown", this.addScore);
-
-    this.trackManager.loadTrack();
   }
 
-  public update(dt: number) {
+  public update(t: number, dt: number) {
     switch (this.currentState) {
       case GameplaySceneState.gameStart:
         this.handleGameStart(dt);
@@ -65,7 +66,7 @@ export class GameplayScene extends Phaser.Scene {
   };
 
   private handleGameplay = (dt: number) => {
-    this.train.playMoveAnimation(dt, 120);
+    this.train.playMoveAnimation(dt);
   };
 
   // private handleGameEnd = (dt: number) => {};
