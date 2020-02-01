@@ -1,29 +1,33 @@
 import * as Phaser from "phaser";
 import { HUDScene, HUDSceneEvents } from "./HUDScene";
-import { Skull } from "../game-objects/Skull";
 import { Train } from "../game-objects/Train";
 import { Rails } from "../game-objects/Rails";
+
+enum GameplaySceneState {
+  gameStart,
+  gameplay,
+  gameEnd
+}
 
 export class GameplayScene extends Phaser.Scene {
   private score: number = 0;
 
   private hud: Phaser.Scene;
-  private skull = new Skull();
   private train = new Train();
   private rails = new Rails();
+
+  private currentState: GameplaySceneState = GameplaySceneState.gameStart;
 
   constructor() {
     super(sceneConfig);
   }
 
   public preload() {
-    this.skull.load(this);
     this.rails.load(this);
     this.train.load(this);
   }
 
   public create() {
-    this.skull.initialize(this);
     this.rails.initialize(this);
     this.train.initialize(this);
 
@@ -35,8 +39,30 @@ export class GameplayScene extends Phaser.Scene {
   }
 
   public update(dt: number) {
-    this.train.update(dt);
+    switch (this.currentState) {
+      case GameplaySceneState.gameStart:
+        this.handleGameStart(dt);
+        break;
+      case GameplaySceneState.gameplay:
+        this.handleGameplay(dt);
+        break;
+      case GameplaySceneState.gameEnd:
+        break;
+    }
   }
+
+  private handleGameStart = (dt: number) => {
+    this.train.playIntroAnimation(
+      dt,
+      () => (this.currentState = GameplaySceneState.gameplay)
+    );
+  };
+
+  private handleGameplay = (dt: number) => {
+    this.train.playMoveAnimation(dt, 120);
+  };
+
+  // private handleGameEnd = (dt: number) => {};
 
   private addScore = () => {
     this.score += 1;
