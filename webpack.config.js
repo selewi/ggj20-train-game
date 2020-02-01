@@ -16,6 +16,16 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.(jpe?g|png|gif)$/,
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 8192,
+            name: "./assets/[name].[ext]"
+          }
+        }
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
