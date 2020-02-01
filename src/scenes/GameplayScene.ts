@@ -1,16 +1,23 @@
 import * as Phaser from "phaser";
 import { HUDScene, HUDSceneEvents } from "./HUDScene";
+import { Skull } from "../game-objects/Skull";
 
 export class GameplayScene extends Phaser.Scene {
   private score: number = 0;
 
   private hud: Phaser.Scene;
+  private skull = new Skull();
 
   constructor() {
     super(sceneConfig);
   }
 
+  public preload() {
+    this.skull.load(this);
+  }
+
   public create() {
+    this.skull.initialize(this);
     this.hud = this.scene.get(HUDScene.name);
     this.scene.launch(HUDScene.name);
 
@@ -18,7 +25,7 @@ export class GameplayScene extends Phaser.Scene {
     this.input.on("pointerdown", this.addScore);
   }
 
-  public update() {
+  public update(dt: number) {
     // TODO
   }
 
