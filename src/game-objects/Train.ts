@@ -6,9 +6,11 @@ import { Tweens } from "phaser";
 export class Train extends GameObject {
   private static bodySpriteKey = spriteAssets.trainBody.toString();
   private static runAudioKey = soundAssets.sfx.trainRun.toString();
+  private static hornKey = soundAssets.sfx.horn.toString();
 
   private trainParts: Array<Phaser.GameObjects.Image> = [];
   private runAudioTrack: Phaser.Sound.BaseSound;
+  private hornAudioTrack: Phaser.Sound.BaseSound;
 
   private requiredIntroDistance = 400;
   private timeAccumulator = 0;
@@ -19,10 +21,14 @@ export class Train extends GameObject {
   public load = (scene: Phaser.Scene) => {
     scene.load.image(Train.bodySpriteKey, spriteAssets.trainBody);
     scene.load.audio(Train.runAudioKey, soundAssets.sfx.trainRun);
+    scene.load.audio(Train.hornKey, soundAssets.sfx.horn);
   };
 
   public initialize = (scene: Phaser.Scene) => {
+    this.hornAudioTrack = scene.sound.add(Train.hornKey);
     this.runAudioTrack = scene.sound.add(Train.runAudioKey, { loop: true });
+
+    this.hornAudioTrack.play();
     this.runAudioTrack.play();
 
     this.fadeoutRunAudioTween = scene.tweens.add({
