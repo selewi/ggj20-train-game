@@ -43,7 +43,6 @@ export class MenuScene extends Phaser.Scene {
     this.background = this.add.image(0, 0, uiAssets.background);
     this.background.setOrigin(0, 0);
     this.background.setDisplaySize(1280, 720);
-    this.background.alpha = 0.9;
     this.background.setDepth(-1);
   }
 
