@@ -1,7 +1,7 @@
 import * as Phaser from "phaser";
 import { spriteAssets } from "../../assets";
 import { GameObject } from "./GameObject";
-import { speedFactor } from "../data/Global";
+import { speedFactor, zIndex } from "../data/Global";
 
 export class TableGroup extends GameObject {
   public static spriteKeyTable: string = spriteAssets.table.toString();
@@ -9,6 +9,7 @@ export class TableGroup extends GameObject {
   public static spriteKeyNotRemache = spriteAssets.notRemache.toString();
 
   public group: Phaser.GameObjects.Group;
+  public missingRemaches: Phaser.Physics.Arcade.Group;
 
   public speed: number = 0;
 
@@ -20,6 +21,7 @@ export class TableGroup extends GameObject {
 
   public initialize = (scene: Phaser.Scene) => {
     this.group = scene.add.group();
+    this.missingRemaches = scene.physics.add.group();
   };
 
   public create(hasTable: boolean, positionX: number, positionY: number) {
@@ -27,25 +29,21 @@ export class TableGroup extends GameObject {
       const table: Phaser.GameObjects.Image = this.group.create(
         positionX,
         positionY,
-        TableGroup.spriteKeyTable,
+        TableGroup.spriteKeyTable
       );
-      table.setOrigin(0.1, 0);
+      table.setOrigin(0.1, 0).setDepth(zIndex.railTable);
 
-      // Dibujar remache
-      const remache: Phaser.GameObjects.Image = this.group.create(
-        positionX,
-        positionY,
-        TableGroup.spriteKeyRemache,
-      );
-      remache.setOrigin(0.1, 0);
+      // Draw rivet
+      this.group
+        .create(positionX + 63, positionY + 16, TableGroup.spriteKeyRemache)
+        .setDepth(zIndex.rivets)
+        .setOrigin(0.1, 0);
     } else {
-      // Dibujar remache vacio
-      const notRemache: Phaser.GameObjects.Image = this.group.create(
-        positionX,
-        positionY,
-        TableGroup.spriteKeyNotRemache,
-      );
-      notRemache.setOrigin(0.1, 0);
+      // Draw empty rivet
+      Phaser.GameObjects.Image = this.missingRemaches
+        .create(positionX, positionY, TableGroup.spriteKeyNotRemache)
+        .setDepth(zIndex.rivets)
+        .setOrigin(0.1, 0);
     }
   }
 
@@ -53,7 +51,7 @@ export class TableGroup extends GameObject {
     batch: string,
     positionX: number,
     positionY: number,
-    xSeparation: number,
+    xSeparation: number
   ) {
     let batchArray: string[] = batch.split("");
 
@@ -72,9 +70,16 @@ export class TableGroup extends GameObject {
     const eightNoteDuration = 0.25;
     const syncSpeed = (0.001 / eightNoteDuration) * distanceBetweenTables;
 
+    return;
+
     this.group.children.iterate(child => {
       const childImage = <Phaser.GameObjects.Image>child;
       childImage.setPosition(childImage.x - dt * syncSpeed, childImage.y);
+    });
+
+    this.missingRemaches.children.iterate(remachin => {
+      const remacheImage = <Phaser.GameObjects.Image>remachin;
+      remacheImage.setPosition(remacheImage.x - dt * syncSpeed, remacheImage.y);
     });
   }
 }

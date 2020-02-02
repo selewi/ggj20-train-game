@@ -1,6 +1,6 @@
 import { GameObject } from "./GameObject";
 import { spriteAssets, soundAssets } from "../../assets/";
-import { speedFactor } from "../data/Global";
+import { speedFactor, zIndex } from "../data/Global";
 import { Tweens } from "phaser";
 
 export class Train extends GameObject {
@@ -8,6 +8,8 @@ export class Train extends GameObject {
   private static characterSpriteKey = spriteAssets.character.toString();
   private static runAudioKey = soundAssets.sfx.trainRun.toString();
   private static hornKey = soundAssets.sfx.horn.toString();
+
+  public trainBodySprite: Phaser.Physics.Arcade.Sprite;
 
   private characterSprite: Phaser.GameObjects.Sprite;
   private trainParts: Array<Phaser.GameObjects.Image> = [];
@@ -43,11 +45,9 @@ export class Train extends GameObject {
     this.hornAudioTrack.play();
     this.runAudioTrack.play();
 
-    this.characterSprite = scene.physics.add.sprite(
-      -150,
-      450,
-      Train.characterSpriteKey
-    );
+    this.characterSprite = scene.physics.add
+      .sprite(-150, 450, Train.characterSpriteKey)
+      .setDepth(zIndex.character);
 
     scene.anims.create({
       key: this.characterAnimations.idle,
@@ -63,13 +63,17 @@ export class Train extends GameObject {
       key: this.characterAnimations.repair,
       frames: scene.anims.generateFrameNumbers(Train.characterSpriteKey, {
         start: 5,
-        end: 14
+        end: 9
       }),
       frameRate: 8,
       repeat: -1
     });
 
-    this.characterSprite.anims.play(this.characterAnimations.idle);
+    this.characterSprite.anims.play(this.characterAnimations.repair);
+
+    this.trainBodySprite = scene.physics.add
+      .sprite(0, 630, Train.bodySpriteKey)
+      .setDepth(zIndex.train);
 
     this.fadeoutRunAudioTween = scene.tweens.add({
       targets: this.runAudioTrack,
@@ -79,7 +83,7 @@ export class Train extends GameObject {
       onComplete: () => this.runAudioTrack.stop()
     });
 
-    this.trainParts.push(scene.add.image(0, 630, Train.bodySpriteKey));
+    this.trainParts.push(this.trainBodySprite);
     this.trainParts.push(this.characterSprite);
 
     this.trainParts.forEach(trainPart => {
