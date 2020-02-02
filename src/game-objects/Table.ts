@@ -9,9 +9,11 @@ interface TableProps {
 }
 
 export class Table extends GameObject {
+  public hasBoard: boolean = false;
+
   public board: Phaser.GameObjects.Image;
   public bottomRivet: Phaser.GameObjects.Image;
-  public topRivet: Phaser.GameObjects.Image;
+  public topRivet: Phaser.Physics.Arcade.Image;
 
   private static boardSpriteKey = spriteAssets.table;
   private static rivetSpriteKey = spriteAssets.remache;
@@ -34,15 +36,19 @@ export class Table extends GameObject {
       ? Table.rivetSpriteKey
       : Table.missingRivetSpriteKey;
 
+    this.hasBoard = hasRivets;
+
     this.board = scene.add
       .image(xPosition, yPosition, Table.boardSpriteKey)
       .setOrigin(0.1, 0)
       .setDepth(zIndex.railTable)
       .setVisible(hasRivets);
 
-    this.topRivet = scene.add
+    this.topRivet = scene.physics.add
       .image(topRivetPositionX, topRivetPositionY, targetRivetSpriteKey)
       .setDepth(zIndex.topRivet);
+
+    if (hasRivets) this.topRivet.disableBody();
 
     this.bottomRivet = scene.add
       .image(bottomRivetPositionX, bottomRivetPositionY, targetRivetSpriteKey)
@@ -50,6 +56,8 @@ export class Table extends GameObject {
   }
 
   public showBoard = (show: boolean = true) => {
+    this.hasBoard = show;
+
     const targetRivetSpriteKey = show
       ? Table.rivetSpriteKey
       : Table.missingRivetSpriteKey;
@@ -57,5 +65,7 @@ export class Table extends GameObject {
     this.board.setVisible(show);
     this.topRivet.setTexture(targetRivetSpriteKey);
     this.bottomRivet.setTexture(targetRivetSpriteKey);
+
+    if (show) this.topRivet.disableBody();
   };
 }

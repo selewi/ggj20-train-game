@@ -48,23 +48,25 @@ export class GameplayScene extends Phaser.Scene {
 
     this.trackManager.initialize(this, {
       speed: trackData.bpm,
-      successCallback: absNoteIndex => {
-        console.log(absNoteIndex);
+      successCallback: targetTable => {
+        targetTable.showBoard(true);
       },
       failCallback: () => {
         this.handleMissingRivetCrash();
       }
     });
 
-    // this.physics.add.overlap(
-    //   this.train.trainBodySprite,
-    //   this.trackManager.railTables,
-    //   (trainBodySprite, missingRivetSprite) => {
-    //     this.handleMissingRivetCrash(
-    //       <Phaser.Physics.Arcade.Sprite>missingRivetSprite
-    //     );
-    //   }
-    // );
+    this.trackManager.railTables.tables.forEach(table => {
+      this.physics.add.overlap(
+        this.train.trainBodySprite,
+        table.topRivet,
+        (trainBodySprite, missingRivetSprite) => {
+          this.handleMissingRivetCrash(
+            <Phaser.Physics.Arcade.Sprite>missingRivetSprite
+          );
+        }
+      );
+    });
 
     this.hud = this.scene.get(HUDScene.name);
     this.scene.launch(HUDScene.name);

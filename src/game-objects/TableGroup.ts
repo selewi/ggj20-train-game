@@ -19,8 +19,8 @@ export class TableGroup extends GameObject {
   private backFloor: Phaser.GameObjects.TileSprite;
 
   public speed: number = 0;
+  public tables: Table[] = [];
 
-  private tables: Table[] = [];
   private distanceBetweenTables: number = 200;
 
   public load = (scene: Phaser.Scene) => {

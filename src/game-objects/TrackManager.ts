@@ -1,10 +1,11 @@
 import { GameObject } from "./GameObject";
 import { TrackData } from "../data/TrackData";
 import { TableGroup } from "./TableGroup";
+import { Table } from "./Table";
 
 interface TrackManagerProps {
   speed: number;
-  successCallback: (noteIndex: number) => void;
+  successCallback: (table: Table) => void;
   failCallback: () => void;
 }
 
@@ -76,8 +77,9 @@ export class TrackManager extends GameObject {
         currentSectionPosition >= currentNoteRealTime - this.trackErrorMargin &&
         currentSectionPosition <= currentNoteRealTime + this.trackErrorMargin
       ) {
-        noteIsActive
-          ? props.successCallback(absNoteIndex)
+        const targetTable = this.railTables.tables[absNoteIndex];
+        !targetTable.hasBoard
+          ? props.successCallback(targetTable)
           : props.failCallback();
       }
     });
@@ -89,6 +91,7 @@ export class TrackManager extends GameObject {
   };
 
   public update(dt: number) {
+    if (this.trackMusic.isPlaying) this.trackSeconds += dt;
     this.railTables.move(dt, this.eightNoteDuration);
   }
 }

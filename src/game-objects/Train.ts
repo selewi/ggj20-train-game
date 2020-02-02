@@ -36,13 +36,13 @@ export class Train extends GameObject {
 
   private readonly characterAnimations = {
     idle: "idle",
-    repair: "repair",
+    repair: "repair"
   };
 
   public load = (scene: Phaser.Scene) => {
     scene.load.spritesheet(Train.characterSpriteKey, spriteAssets.character, {
       frameWidth: 154,
-      frameHeight: 143,
+      frameHeight: 143
     });
 
     scene.load.image(Train.bodySpriteKey, spriteAssets.trainBody);
@@ -69,20 +69,20 @@ export class Train extends GameObject {
       key: this.characterAnimations.idle,
       frames: scene.anims.generateFrameNumbers(Train.characterSpriteKey, {
         start: 0,
-        end: 4,
+        end: 4
       }),
       frameRate: 8,
-      repeat: -1,
+      repeat: -1
     });
 
     scene.anims.create({
       key: this.characterAnimations.repair,
       frames: scene.anims.generateFrameNumbers(Train.characterSpriteKey, {
         start: 5,
-        end: 9,
+        end: 9
       }),
       frameRate: 8,
-      repeat: -1,
+      repeat: -1
     });
 
     this.characterSprite.anims.play(this.characterAnimations.repair);
@@ -92,11 +92,11 @@ export class Train extends GameObject {
       .setDepth(zIndex.train);
 
     this.grillSprite = scene.physics.add
-      .sprite(-20, 570, Train.grillSpriteKey)
+      .sprite(40, 570, Train.grillSpriteKey)
       .setDepth(zIndex.grill);
 
     this.tailpipeSprite = scene.physics.add
-      .sprite(-485, 525, Train.tailpipeSpriteKey)
+      .sprite(-455, 525, Train.tailpipeSpriteKey)
       .setDepth(zIndex.tailpipe);
 
     this.fadeoutRunAudioTween = scene.tweens.add({
@@ -104,7 +104,7 @@ export class Train extends GameObject {
       volume: 0,
       duration: 1000,
       paused: true,
-      onComplete: () => this.runAudioTrack.stop(),
+      onComplete: () => this.runAudioTrack.stop()
     });
 
     this.trainParts.push(this.trainBodySprite);
@@ -139,7 +139,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x + this.timeAccumulator * 0.01,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed),
+          Math.sin(this.timeAccumulator * speedFactor * this.speed)
       );
     });
   };
@@ -152,7 +152,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed),
+          Math.sin(this.timeAccumulator * speedFactor * this.speed)
       );
     });
   };
@@ -166,7 +166,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x + this.timeAccumulator * 0.01,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed),
+          Math.sin(this.timeAccumulator * speedFactor * this.speed)
       );
     });
 
