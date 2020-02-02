@@ -13,7 +13,9 @@ export const spriteAssets = {
     "assets/sprites/background-2.png"
   ],
   smokeParticle: "assets/sprites/particle_2.png",
-  sparkParticle: "assets/sprites/spark.png"
+  sparkParticle: "assets/sprites/spark.png",
+
+  character: "assets/sprites/personaje.png"
 };
 
 export const uiAssets = {
