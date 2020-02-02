@@ -26,9 +26,7 @@ export class GameplayScene extends Phaser.Scene {
   private particles = new Particles();
 
   private trackManager: TrackManager = new TrackManager();
-  private railTables: TableGroup = new TableGroup();
   private currentState: GameplaySceneState = GameplaySceneState.gameStart;
-  private init = false;
 
   constructor() {
     super(sceneConfig);
@@ -40,33 +38,34 @@ export class GameplayScene extends Phaser.Scene {
     this.particles.load(this);
     this.rails.load(this);
     this.train.load(this);
-    this.railTables.load(this);
   }
 
   public create() {
     this.background.initialize(this, { speed: trackData.bpm });
-    this.railTables.initialize(this);
-
-    this.trackManager.setRailTables(this.railTables);
-    this.init = false;
 
     this.rails.initialize(this);
-
     this.train.initialize(this);
     this.particles.initialize(this);
 
-    this.train.setSpeed(trackData.bpm);
-    this.railTables.setSpeed(trackData.bpm);
-
-    this.physics.add.overlap(
-      this.train.trainBodySprite,
-      this.railTables.missingRivets,
-      (trainBodySprite, missingRivetSprite) => {
-        this.handleMissingRivetCrash(
-          <Phaser.Physics.Arcade.Sprite>missingRivetSprite
-        );
+    this.trackManager.initialize(this, {
+      speed: trackData.bpm,
+      successCallback: absNoteIndex => {
+        console.log(absNoteIndex);
+      },
+      failCallback: () => {
+        this.handleMissingRivetCrash();
       }
-    );
+    });
+
+    // this.physics.add.overlap(
+    //   this.train.trainBodySprite,
+    //   this.trackManager.railTables,
+    //   (trainBodySprite, missingRivetSprite) => {
+    //     this.handleMissingRivetCrash(
+    //       <Phaser.Physics.Arcade.Sprite>missingRivetSprite
+    //     );
+    //   }
+    // );
 
     this.hud = this.scene.get(HUDScene.name);
     this.scene.launch(HUDScene.name);
@@ -78,17 +77,6 @@ export class GameplayScene extends Phaser.Scene {
         this.handleGameStart(dt);
         break;
       case GameplaySceneState.gameplay:
-        if (!this.init) {
-          this.trackManager.initialize(this, {
-            successCallback: absNoteIndex => {
-              console.log(absNoteIndex);
-            },
-            failCallback: () => {
-              this.handleMissingRivetCrash();
-            }
-          });
-          this.init = true;
-        }
         this.handleGameplay(dt);
         break;
       case GameplaySceneState.gameEnd:
@@ -105,7 +93,7 @@ export class GameplayScene extends Phaser.Scene {
   };
 
   private handleGameplay = (dt: number) => {
-    this.trackManager.update(dt);
+    this.trackManager.playMusic();
     this.train.playMoveAnimation(dt);
     this.moveEnvironment(dt);
   };
@@ -115,7 +103,7 @@ export class GameplayScene extends Phaser.Scene {
   };
 
   private moveEnvironment = (dt: number) => {
-    this.railTables.move(dt);
+    this.trackManager.update(dt);
     this.background.moveBackground();
   };
 

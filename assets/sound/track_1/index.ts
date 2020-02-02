@@ -6,7 +6,7 @@ export const trackData: TrackData = {
   //intro: ["0000000000000000"],
   sections: [
     // intro:
-    "1000000000000000",
+    "0000000000000000",
     // middle sections:
     "1000000010000000",
     "1010101010000010",
