@@ -55,10 +55,10 @@ export class TableGroup extends GameObject {
     }
 
     this.frontFloor = scene.add
-      .tileSprite(640, 400, 1280, 720, TableGroup.spriteKeyFrontFloor)
+      .tileSprite(640, 420, 1280, 720, TableGroup.spriteKeyFrontFloor)
       .setDepth(zIndex.froontFloor);
     this.backFloor = scene.add
-      .tileSprite(640, 400, 1280, 720, TableGroup.spriteKeyBackFloor)
+      .tileSprite(640, 420, 1280, 720, TableGroup.spriteKeyBackFloor)
       .setDepth(zIndex.backFloor);
   };
 
