@@ -45,7 +45,7 @@ export class TrackManager extends GameObject {
         this.trackData.sections[i],
         currentTablesStartingX,
         tablesY,
-        distanceBetweenTables
+        distanceBetweenTables,
       );
       currentTablesStartingX +=
         eightNoteAmountPerSection * distanceBetweenTables;
@@ -57,14 +57,14 @@ export class TrackManager extends GameObject {
       let currentSectionId = Math.floor(this.trackSeconds / sectionDuration);
       let currentSection = this.trackData.sections[currentSectionId];
       let currentSectionPosition = Math.floor(
-        this.trackSeconds - sectionDuration * currentSectionId
+        this.trackSeconds - sectionDuration * currentSectionId,
       );
       let currentNoteId = Math.round(
-        currentSectionPosition / eightNoteDuration
+        currentSectionPosition / eightNoteDuration,
       );
       let noteIsActive = this.railTables.noteIsActive(
         currentSection,
-        currentNoteId
+        currentNoteId,
       );
 
       let currentNoteRealTime = currentNoteId * eightNoteDuration;
@@ -74,7 +74,7 @@ export class TrackManager extends GameObject {
       console.log("current note id: " + currentNoteId.toString());
       console.log("note is active: " + noteIsActive.toString());
       console.log(
-        "current section position: " + currentSectionPosition.toString()
+        "current section position: " + currentSectionPosition.toString(),
       );
       console.log("nearest note pos: " + currentNoteRealTime.toString());
 
@@ -85,7 +85,8 @@ export class TrackManager extends GameObject {
         return;
       }
 
-      const absNoteIndex = 0;
+      const absNoteIndex =
+        currentSectionId * eightNoteAmountPerSection + currentNoteId;
       noteIsActive ? props.successCallback(absNoteIndex) : props.failCallback();
     });
   };
