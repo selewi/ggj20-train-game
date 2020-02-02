@@ -36,7 +36,7 @@ export const soundAssets = {
     trainRun: "assets/sound/SFX/TrainRun.wav",
     trainHit: "assets/sound/SFX/TrainHit.wav",
     horn: "assets/sound/SFX/StartingHorn.wav",
-    ray_1: "assets/sound/SFX/Ray_01.wav",
+    ray: "assets/sound/SFX/Ray_01.wav",
     ray_2: "assets/sound/SFX/Ray_02.wav",
     ray_3: "assets/sound/SFX/Ray_03.wav",
     ray_4: "assets/sound/SFX/Ray_04.wav",

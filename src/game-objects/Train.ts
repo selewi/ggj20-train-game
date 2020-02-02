@@ -13,6 +13,7 @@ export class Train extends GameObject {
   private static grillSpriteKey = spriteAssets.grill.toString();
   private static tailpipeSpriteKey = spriteAssets.tailpipe.toString();
   private static characterSpriteKey = spriteAssets.character.toString();
+  private static rayAudioKey = soundAssets.sfx.ray.toString();
   private static runAudioKey = soundAssets.sfx.trainRun.toString();
   private static hitAudioKey = soundAssets.sfx.trainHit.toString();
   private static hornKey = soundAssets.sfx.horn.toString();
@@ -27,6 +28,7 @@ export class Train extends GameObject {
   private runAudioTrack: Phaser.Sound.BaseSound;
   private hitAudioTrack: Phaser.Sound.BaseSound;
   private hornAudioTrack: Phaser.Sound.BaseSound;
+  private rayAudioTrack: Phaser.Sound.BaseSound;
 
   private requiredIntroDistance = 550;
   private timeAccumulator = 0;
@@ -36,13 +38,13 @@ export class Train extends GameObject {
 
   private readonly characterAnimations = {
     idle: "idle",
-    repair: "repair"
+    repair: "repair",
   };
 
   public load = (scene: Phaser.Scene) => {
     scene.load.spritesheet(Train.characterSpriteKey, spriteAssets.character, {
       frameWidth: 154,
-      frameHeight: 143
+      frameHeight: 143,
     });
 
     scene.load.image(Train.bodySpriteKey, spriteAssets.trainBody);
@@ -51,12 +53,15 @@ export class Train extends GameObject {
     scene.load.audio(Train.runAudioKey, soundAssets.sfx.trainRun);
     scene.load.audio(Train.hitAudioKey, soundAssets.sfx.trainHit);
     scene.load.audio(Train.hornKey, soundAssets.sfx.horn);
+
+    scene.load.audio(Train.rayAudioKey, soundAssets.sfx.ray);
   };
 
   public initialize = (scene: Phaser.Scene) => {
     this.hornAudioTrack = scene.sound.add(Train.hornKey);
     this.runAudioTrack = scene.sound.add(Train.runAudioKey, { loop: true });
     this.hitAudioTrack = scene.sound.add(Train.hitAudioKey);
+    this.rayAudioTrack = scene.sound.add(Train.rayAudioKey);
 
     this.hornAudioTrack.play();
     this.runAudioTrack.play();
@@ -69,20 +74,20 @@ export class Train extends GameObject {
       key: this.characterAnimations.idle,
       frames: scene.anims.generateFrameNumbers(Train.characterSpriteKey, {
         start: 0,
-        end: 4
+        end: 4,
       }),
       frameRate: 8,
-      repeat: -1
+      repeat: -1,
     });
 
     scene.anims.create({
       key: this.characterAnimations.repair,
       frames: scene.anims.generateFrameNumbers(Train.characterSpriteKey, {
         start: 5,
-        end: 9
+        end: 9,
       }),
       frameRate: 8,
-      repeat: 0
+      repeat: 0,
     });
 
     this.characterSprite.anims.play(this.characterAnimations.idle);
@@ -104,7 +109,7 @@ export class Train extends GameObject {
       volume: 0,
       duration: 1000,
       paused: true,
-      onComplete: () => this.runAudioTrack.stop()
+      onComplete: () => this.runAudioTrack.stop(),
     });
 
     this.trainParts.push(this.trainBodySprite);
@@ -139,7 +144,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x + this.timeAccumulator * 0.01,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed)
+          Math.sin(this.timeAccumulator * speedFactor * this.speed),
       );
     });
   };
@@ -153,7 +158,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed)
+          Math.sin(this.timeAccumulator * speedFactor * this.speed),
       );
     });
   };
@@ -167,7 +172,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x + this.timeAccumulator * 0.01,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed)
+          Math.sin(this.timeAccumulator * speedFactor * this.speed),
       );
     });
 
@@ -180,6 +185,7 @@ export class Train extends GameObject {
   };
 
   public castRepairSpell = () => {
+    this.rayAudioTrack.play();
     this.characterSprite.anims
       .play(this.characterAnimations.repair, true)
       .once("animationcomplete", () => {
