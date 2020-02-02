@@ -60,10 +60,19 @@ export class TableGroup extends GameObject {
       Phaser.GameObjects.Image = this.missingRivets
         .create(
           topRivetPositionX,
-          topRivetPositionY,
+          topRivetPositionY - 10,
           TableGroup.spriteKeyNotRemache
         )
         .setDepth(zIndex.topRivet);
+
+      // Draw empty bottom rivet
+      this.group
+        .create(
+          bottomRivetPositionX,
+          bottomRivetPositionY - 10,
+          TableGroup.spriteKeyNotRemache
+        )
+        .setDepth(zIndex.bottomRivet);
     }
   }
 

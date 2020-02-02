@@ -56,6 +56,15 @@ export class GameplayScene extends Phaser.Scene {
     this.train.setSpeed(trackData.bpm);
     this.railTables.setSpeed(trackData.bpm);
 
+    this.physics.add.overlap(
+      this.train.trainBodySprite,
+      this.railTables.missingRivets,
+      (trainBodySprite, missingRivetSprite) => {
+        (<Phaser.Physics.Arcade.Sprite>missingRivetSprite).disableBody();
+        this.train.crash();
+      }
+    );
+
     // this.hud = this.scene.get(HUDScene.name);
     // this.scene.launch(HUDScene.name);
     // this.input.on("pointerdown", this.addScore);
@@ -89,7 +98,6 @@ export class GameplayScene extends Phaser.Scene {
   private handleGameplay = (dt: number) => {
     this.trackManager.update(dt);
     this.train.playMoveAnimation(dt);
-    this.background.moveBackground();
     this.moveEnvironment(dt);
   };
 
@@ -97,14 +105,9 @@ export class GameplayScene extends Phaser.Scene {
     this.train.playWinAnimation(dt);
   };
 
-  // private addScore = () => {
-  //   this.score += 1;
-  //   this.hud.events.emit(HUDSceneEvents.updateScoreText, this.score);
-  // };
-
   private moveEnvironment = (dt: number) => {
     this.railTables.move(dt);
-    // Move parallax
+    this.background.moveBackground();
   };
 }
 

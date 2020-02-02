@@ -7,6 +7,7 @@ export class Train extends GameObject {
   private static bodySpriteKey = spriteAssets.trainBody.toString();
   private static characterSpriteKey = spriteAssets.character.toString();
   private static runAudioKey = soundAssets.sfx.trainRun.toString();
+  private static hitAudioKey = soundAssets.sfx.trainHit.toString();
   private static hornKey = soundAssets.sfx.horn.toString();
 
   public trainBodySprite: Phaser.Physics.Arcade.Sprite;
@@ -14,6 +15,7 @@ export class Train extends GameObject {
   private characterSprite: Phaser.GameObjects.Sprite;
   private trainParts: Array<Phaser.GameObjects.Image> = [];
   private runAudioTrack: Phaser.Sound.BaseSound;
+  private hitAudioTrack: Phaser.Sound.BaseSound;
   private hornAudioTrack: Phaser.Sound.BaseSound;
 
   private requiredIntroDistance = 550;
@@ -35,12 +37,14 @@ export class Train extends GameObject {
 
     scene.load.image(Train.bodySpriteKey, spriteAssets.trainBody);
     scene.load.audio(Train.runAudioKey, soundAssets.sfx.trainRun);
+    scene.load.audio(Train.hitAudioKey, soundAssets.sfx.trainHit);
     scene.load.audio(Train.hornKey, soundAssets.sfx.horn);
   };
 
   public initialize = (scene: Phaser.Scene) => {
     this.hornAudioTrack = scene.sound.add(Train.hornKey);
     this.runAudioTrack = scene.sound.add(Train.runAudioKey, { loop: true });
+    this.hitAudioTrack = scene.sound.add(Train.hitAudioKey);
 
     this.hornAudioTrack.play();
     this.runAudioTrack.play();
@@ -144,5 +148,9 @@ export class Train extends GameObject {
 
     if (!this.fadeoutRunAudioTween.isPlaying())
       this.fadeoutRunAudioTween.play();
+  };
+
+  public crash = () => {
+    this.hitAudioTrack.play();
   };
 }
