@@ -31,9 +31,8 @@ export class HUDScene extends Phaser.Scene {
     this.vignette = this.add.image(0, 0, uiAssets.vignette);
     this.vignette.setOrigin(0, 0);
     this.vignette.setDisplaySize(1280, 720);
-    // this.vignette.setBlendMode(Phaser.BlendModes.DIFFERENCE);
-
-    console.log(this.vignette);
+    this.vignette.alpha = 0.9;
+    this.vignette.setDepth(-1);
   }
 
   public showLives = (amount: number) => {
