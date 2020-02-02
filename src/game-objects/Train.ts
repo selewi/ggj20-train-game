@@ -73,7 +73,7 @@ export class Train extends GameObject {
       repeat: -1
     });
 
-    this.characterSprite.anims.play(this.characterAnimations.idle);
+    this.characterSprite.anims.play(this.characterAnimations.repair);
 
     this.trainBodySprite = scene.physics.add
       .sprite(0, 590, Train.bodySpriteKey)

@@ -79,7 +79,14 @@ export class GameplayScene extends Phaser.Scene {
         break;
       case GameplaySceneState.gameplay:
         if (!this.init) {
-          this.trackManager.initialize(this);
+          this.trackManager.initialize(this, {
+            successCallback: absNoteIndex => {
+              console.log(absNoteIndex);
+            },
+            failCallback: () => {
+              this.handleMissingRivetCrash();
+            }
+          });
           this.init = true;
         }
         this.handleGameplay(dt);
@@ -113,9 +120,9 @@ export class GameplayScene extends Phaser.Scene {
   };
 
   private handleMissingRivetCrash = (
-    missingRivet: Phaser.Physics.Arcade.Sprite
+    missingRivet?: Phaser.Physics.Arcade.Sprite
   ) => {
-    missingRivet.disableBody();
+    missingRivet && missingRivet.disableBody();
     this.train.crash();
     this.loseLife();
   };
@@ -123,7 +130,7 @@ export class GameplayScene extends Phaser.Scene {
   private loseLife = () => {
     this.lives -= 1;
     this.hud.events.emit(HUDSceneEvents.reduceLife, this.lives);
-    if (this.lives <= 0) alert("you lose :/");
+    if (this.lives <= 0) console.log("lose");
   };
 }
 
