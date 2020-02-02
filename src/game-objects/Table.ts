@@ -32,10 +32,6 @@ export class Table extends GameObject {
     const topRivetPositionY = yPosition + 30;
     const bottomRivetPositionX = xPosition + 22;
     const bottomRivetPositionY = yPosition + 80;
-    const targetRivetSpriteKey = hasRivets
-      ? Table.rivetSpriteKey
-      : Table.missingRivetSpriteKey;
-
     this.hasBoard = hasRivets;
 
     this.board = scene.add
@@ -45,27 +41,30 @@ export class Table extends GameObject {
       .setVisible(hasRivets);
 
     this.topRivet = scene.physics.add
-      .image(topRivetPositionX, topRivetPositionY, targetRivetSpriteKey)
+      .image(topRivetPositionX, topRivetPositionY, Table.rivetSpriteKey)
       .setDepth(zIndex.topRivet);
 
-    if (hasRivets) this.topRivet.disableBody();
-
     this.bottomRivet = scene.add
-      .image(bottomRivetPositionX, bottomRivetPositionY, targetRivetSpriteKey)
+      .image(bottomRivetPositionX, bottomRivetPositionY, Table.rivetSpriteKey)
       .setDepth(zIndex.bottomRivet);
+
+    if (!hasRivets) {
+      this.topRivet.tint = 0xff0000;
+      this.bottomRivet.tint = 0xff0000;
+    } else {
+      this.topRivet.disableBody();
+    }
   }
 
   public showBoard = (show: boolean = true) => {
     this.hasBoard = show;
 
-    const targetRivetSpriteKey = show
-      ? Table.rivetSpriteKey
-      : Table.missingRivetSpriteKey;
-
     this.board.setVisible(show);
-    this.topRivet.setTexture(targetRivetSpriteKey);
-    this.bottomRivet.setTexture(targetRivetSpriteKey);
 
-    if (show) this.topRivet.disableBody();
+    if (show) {
+      this.topRivet.disableBody();
+      this.topRivet.tint = 0xffffff;
+      this.bottomRivet.tint = 0xffffff;
+    }
   };
 }
