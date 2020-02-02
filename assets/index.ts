@@ -11,3 +11,7 @@ export const uiAssets = {
     released: "assets/sprites/UI/button_released.png"
   }
 };
+
+export const soundAssets = {
+  menuMusic: "assets/sound/Menu_Music.ogg"
+};

@@ -2,9 +2,11 @@ import * as Phaser from "phaser";
 import { Button } from "../UI/Button";
 import { GameplayScene } from "./GameplayScene";
 import { game } from "../main";
+import { soundAssets } from "../../assets/";
 
 export class MenuScene extends Phaser.Scene {
   private playButton: Button = new Button();
+  private musicAssetKey = soundAssets.menuMusic.toString();
 
   constructor() {
     super(sceneConfig);
@@ -12,9 +14,13 @@ export class MenuScene extends Phaser.Scene {
 
   public preload() {
     this.playButton.load(this);
+    this.load.audio(this.musicAssetKey, soundAssets.menuMusic);
   }
 
   public create() {
+    const track = this.sound.add(this.musicAssetKey, { loop: true });
+    track.play();
+
     this.playButton.initialize(this, {
       text: "Start Ride",
       position: {
