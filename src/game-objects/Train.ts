@@ -82,10 +82,10 @@ export class Train extends GameObject {
         end: 9
       }),
       frameRate: 8,
-      repeat: -1
+      repeat: 0
     });
 
-    this.characterSprite.anims.play(this.characterAnimations.repair);
+    this.characterSprite.anims.play(this.characterAnimations.idle);
 
     this.trainBodySprite = scene.physics.add
       .sprite(-80, 590, Train.bodySpriteKey)
@@ -177,5 +177,13 @@ export class Train extends GameObject {
 
   public crash = () => {
     this.hitAudioTrack.play();
+  };
+
+  public castRepairSpell = () => {
+    this.characterSprite.anims
+      .play(this.characterAnimations.repair, true)
+      .once("animationcomplete", () => {
+        this.characterSprite.anims.play(this.characterAnimations.idle);
+      });
   };
 }

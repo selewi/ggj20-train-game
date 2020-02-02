@@ -50,9 +50,11 @@ export class GameplayScene extends Phaser.Scene {
     this.trackManager.initialize(this, {
       speed: trackData.bpm,
       successCallback: targetTable => {
+        this.train.castRepairSpell();
         targetTable.showBoard(true);
       },
       failCallback: () => {
+        this.train.castRepairSpell();
         this.handleMissingRivetCrash();
       }
     });
@@ -120,7 +122,7 @@ export class GameplayScene extends Phaser.Scene {
   private loseLife = () => {
     this.lives -= 1;
     this.hud.events.emit(HUDSceneEvents.reduceLife, this.lives);
-    if (this.lives <= 0) console.log("lose");
+    if (this.lives <= 0) alert("gg you lose, fool.");
   };
 }
 
