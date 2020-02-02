@@ -13,28 +13,33 @@ export const spriteAssets = {
   parallaxBackground: [
     "assets/sprites/background-0.png",
     "assets/sprites/background-1.png",
-    "assets/sprites/background-2.png"
+    "assets/sprites/background-2.png",
   ],
   smokeParticle: "assets/sprites/particle_2.png",
   sparkParticle: "assets/sprites/spark.png",
 
-  character: "assets/sprites/personaje.png"
+  character: "assets/sprites/personaje.png",
 };
 
 export const uiAssets = {
   button: {
     pressed: "assets/sprites/UI/button_pressed.png",
-    released: "assets/sprites/UI/button_released.png"
+    released: "assets/sprites/UI/button_released.png",
   },
+  aim: "assets/sprites/MIRA.png",
   vignette: "assets/sprites/UI/vignette.png",
-  background: "assets/sprites/UI/backgroundMenu.jpg"
+  background: "assets/sprites/UI/backgroundMenu.jpg",
 };
 
 export const soundAssets = {
   sfx: {
     trainRun: "assets/sound/SFX/TrainRun.wav",
     trainHit: "assets/sound/SFX/TrainHit.wav",
-    horn: "assets/sound/SFX/StartingHorn.wav"
+    horn: "assets/sound/SFX/StartingHorn.wav",
+    ray_1: "assets/sound/SFX/Ray_01.wav",
+    ray_2: "assets/sound/SFX/Ray_02.wav",
+    ray_3: "assets/sound/SFX/Ray_03.wav",
+    ray_4: "assets/sound/SFX/Ray_04.wav",
   },
-  menuMusic: "assets/sound/Menu_Music.ogg"
+  menuMusic: "assets/sound/Menu_Music.ogg",
 };

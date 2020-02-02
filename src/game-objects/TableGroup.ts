@@ -3,6 +3,7 @@ import { spriteAssets } from "../../assets";
 import { GameObject } from "./GameObject";
 import { speedFactor, zIndex } from "../data/Global";
 import { Table } from "./Table";
+import { game } from "../main";
 
 interface TableGroupProps {
   boardSequence: string;
@@ -36,7 +37,7 @@ export class TableGroup extends GameObject {
   };
 
   public initialize = (scene: Phaser.Scene, props: TableGroupProps) => {
-    const tablesStartingX = 500;
+    const tablesStartingX = game.scale.width / 2;
     const tablesStartingY = 520;
     let currentTablesStartingX = tablesStartingX;
 

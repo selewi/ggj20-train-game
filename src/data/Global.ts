@@ -13,5 +13,5 @@ export const zIndex = {
   grill: 175,
   character: 200,
   froontFloor: 220,
-  sparkParticles: 225
+  sparkParticles: 225,
 };
