@@ -92,11 +92,11 @@ export class Train extends GameObject {
       .setDepth(zIndex.train);
 
     this.grillSprite = scene.physics.add
-      .sprite(-20, 570, Train.grillSpriteKey)
+      .sprite(40, 570, Train.grillSpriteKey)
       .setDepth(zIndex.grill);
 
     this.tailpipeSprite = scene.physics.add
-      .sprite(-485, 525, Train.tailpipeSpriteKey)
+      .sprite(-435, 525, Train.tailpipeSpriteKey)
       .setDepth(zIndex.tailpipe);
 
     this.fadeoutRunAudioTween = scene.tweens.add({
