@@ -1,10 +1,11 @@
 import { GameObject } from "./GameObject";
 import { spriteAssets } from "../../assets/index";
+import { zIndex } from "../data/Global";
 
 export class Particles extends GameObject {
   public static smokeParticleSpriteKey = spriteAssets.smokeParticle;
   public static sparkParticleSpriteKey = spriteAssets.sparkParticle;
-  private smokeEmitter: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig = {
+  public smokeEmitterConfig: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig = {
     frequency: 180,
     x: { min: this.random(100, 150), max: 150 },
     y: 350,
@@ -15,17 +16,22 @@ export class Particles extends GameObject {
     scale: { start: 0.2, end: 0.7, ease: "Power4" },
     rotate: this.random(0, 135)
   };
-  private sparkEmitter: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig = {
-    frequency: 0,
+  public smokeParticle: Phaser.GameObjects.Particles.ParticleEmitterManager;
+  public sparkParticle: Phaser.GameObjects.Particles.ParticleEmitterManager;
+  public sparkEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
+  public smokeEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
+
+  public sparkEmitterConfig: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig = {
+    frequency: 1,
     x: { min: 300, max: 350 },
-    y: { min: 600, max: 630 },
+    y: { min: 580, max: 600 },
     lifespan: { min: 250, max: 800 },
-    speedY: { min: -10, max: 60 },
+    speedY: { min: -260, max: -120 },
     speedX: { min: -1500, max: 10 },
     gravityY: 1000,
     gravityX: -500,
     scaleX: { min: 1, max: 2 },
-    alpha: { min: 0.1, max: 0.75 },
+    alpha: 1,
     rotate: { min: 45, max: 135 }
   };
   public load = (scene: Phaser.Scene) => {
@@ -39,14 +45,19 @@ export class Particles extends GameObject {
     );
   };
 
-  public initialize = (scene: Phaser.Scene) => {
-    let smokeParticle = scene.add.particles(Particles.smokeParticleSpriteKey);
-    let smokeEmitter = smokeParticle.createEmitter(this.smokeEmitter);
-    smokeEmitter.emitCallback;
+  public update = () => {};
 
-    let sparkParticles = scene.add.particles(Particles.sparkParticleSpriteKey);
-    let sparkEmitter = sparkParticles.createEmitter(this.sparkEmitter);
-    sparkEmitter.emitCallback;
+  public initialize = (scene: Phaser.Scene) => {
+    this.smokeParticle = scene.add.particles(Particles.smokeParticleSpriteKey);
+    this.smokeEmitter = this.smokeParticle.createEmitter(
+      this.smokeEmitterConfig
+    );
+
+    this.sparkParticle = scene.add.particles(Particles.sparkParticleSpriteKey);
+    this.sparkEmitter = this.sparkParticle.createEmitter(
+      this.sparkEmitterConfig
+    );
+    this.sparkParticle.setDepth(zIndex.sparkParticles);
   };
 
   public random(min: number, max: number) {

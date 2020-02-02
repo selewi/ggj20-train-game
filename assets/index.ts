@@ -7,7 +7,8 @@ export const spriteAssets = {
   table: "assets/sprites/MADERA.png",
   remache: "assets/sprites/remache.png",
   notRemache: "assets/sprites/not_remache.png",
-
+  railsFrontFloor: "assets/sprites/rails-front-floor.png",
+  railsBackFloor: "assets/sprites/rails-back-floor.png",
   baseBackground: "assets/sprites/base_background.jpg",
   parallaxBackground: [
     "assets/sprites/background-0.png",

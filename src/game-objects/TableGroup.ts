@@ -12,6 +12,11 @@ export class TableGroup extends GameObject {
   public static spriteKeyTable: string = spriteAssets.table.toString();
   public static spriteKeyRemache = spriteAssets.remache.toString();
   public static spriteKeyNotRemache = spriteAssets.notRemache.toString();
+  public static spriteKeyFrontFloor = spriteAssets.railsFrontFloor.toString();
+  public static spriteKeyBackFloor = spriteAssets.railsBackFloor.toString();
+
+  private frontFloor: Phaser.GameObjects.TileSprite;
+  private backFloor: Phaser.GameObjects.TileSprite;
 
   public speed: number = 0;
 
@@ -20,6 +25,14 @@ export class TableGroup extends GameObject {
 
   public load = (scene: Phaser.Scene) => {
     new Table().load(scene);
+    scene.load.image(
+      TableGroup.spriteKeyFrontFloor,
+      spriteAssets.railsFrontFloor
+    );
+    scene.load.image(
+      TableGroup.spriteKeyBackFloor,
+      spriteAssets.railsBackFloor
+    );
   };
 
   public initialize = (scene: Phaser.Scene, props: TableGroupProps) => {
@@ -39,6 +52,13 @@ export class TableGroup extends GameObject {
 
       currentTablesStartingX += this.distanceBetweenTables;
     }
+
+    this.frontFloor = scene.add
+      .tileSprite(640, 400, 1280, 720, TableGroup.spriteKeyFrontFloor)
+      .setDepth(zIndex.froontFloor);
+    this.backFloor = scene.add
+      .tileSprite(640, 400, 1280, 720, TableGroup.spriteKeyBackFloor)
+      .setDepth(zIndex.backFloor);
   };
 
   public move(dt: number, speed: number) {
@@ -57,6 +77,9 @@ export class TableGroup extends GameObject {
         table.topRivet.y
       );
     });
+
+    this.frontFloor.tilePositionX = this.frontFloor.tilePositionX + syncSpeed;
+    this.backFloor.tilePositionX = this.backFloor.tilePositionX + syncSpeed;
   }
 
   public noteIsActive(section: string, noteId: number) {
