@@ -45,6 +45,7 @@ export class GameplayScene extends Phaser.Scene {
 
     this.rails.initialize(this);
     this.train.initialize(this);
+    this.train.setSpeed(trackData.bpm);
 
     this.trackManager.initialize(this, {
       speed: trackData.bpm,
