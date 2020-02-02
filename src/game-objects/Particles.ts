@@ -5,10 +5,10 @@ export class Particles extends GameObject {
   public static smokeParticleSpriteKey = spriteAssets.smokeParticle;
   public static sparkParticleSpriteKey = spriteAssets.sparkParticle;
   private smokeEmitter: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig = {
-    frequency: 100,
-    x: { min: this.random(250, 300), max: 300 },
-    y: 400,
-    lifespan: this.random(1000, 2500),
+    frequency: 180,
+    x: { min: this.random(100, 150), max: 150 },
+    y: 350,
+    lifespan: this.random(1000, 1500),
     speedX: { min: -400, max: -200 },
     speedY: { min: -200, max: -100 },
     alpha: { start: 0.75, end: 0 },
@@ -16,13 +16,17 @@ export class Particles extends GameObject {
     rotate: this.random(0, 135)
   };
   private sparkEmitter: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig = {
-    frequency: 50,
-    x: { min: 0, max: 300 },
-    y: { min: 600, max: 675 },
-    speedX: { min: -400, max: -200 },
-    alpha: { start: 0.75, end: 0 },
-    rotate: 180,
-    scale: { start: 0.0, end: 0.2, ease: "Power4" }
+    frequency: 0,
+    x: { min: 300, max: 350 },
+    y: { min: 600, max: 630 },
+    lifespan: { min: 250, max: 800 },
+    speedY: { min: -10, max: 60 },
+    speedX: { min: -1500, max: 10 },
+    gravityY: 1000,
+    gravityX: -500,
+    scaleX: { min: 1, max: 2 },
+    alpha: { min: 0.1, max: 0.75 },
+    rotate: { min: 45, max: 135 }
   };
   public load = (scene: Phaser.Scene) => {
     scene.load.image(

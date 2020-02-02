@@ -16,7 +16,7 @@ export class Train extends GameObject {
   private runAudioTrack: Phaser.Sound.BaseSound;
   private hornAudioTrack: Phaser.Sound.BaseSound;
 
-  private requiredIntroDistance = 400;
+  private requiredIntroDistance = 550;
   private timeAccumulator = 0;
   private speed = 0;
 
