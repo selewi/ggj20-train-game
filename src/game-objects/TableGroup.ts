@@ -8,7 +8,7 @@ export class TableGroup extends GameObject {
 
   public group: Phaser.GameObjects.Group;
 
-  private speed: number = 0;
+  public speed: number = 0;
 
   public load = (scene: Phaser.Scene) => {
     scene.load.image(TableGroup.spriteKey, spriteAssets.table);
