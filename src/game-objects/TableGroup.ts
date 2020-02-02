@@ -9,7 +9,7 @@ export class TableGroup extends GameObject {
   public static spriteKeyNotRemache = spriteAssets.notRemache.toString();
 
   public group: Phaser.GameObjects.Group;
-  public missingRemaches: Phaser.Physics.Arcade.Group;
+  public missingRivets: Phaser.Physics.Arcade.Group;
 
   public speed: number = 0;
 
@@ -21,10 +21,15 @@ export class TableGroup extends GameObject {
 
   public initialize = (scene: Phaser.Scene) => {
     this.group = scene.add.group();
-    this.missingRemaches = scene.physics.add.group();
+    this.missingRivets = scene.physics.add.group();
   };
 
   public create(hasTable: boolean, positionX: number, positionY: number) {
+    const topRivetPositionX = positionX + 73;
+    const topRivetPositionY = positionY + 30;
+    const bottomRivetPositionX = positionX + 22;
+    const bottomRivetPositionY = positionY + 80;
+
     if (hasTable) {
       const table: Phaser.GameObjects.Image = this.group.create(
         positionX,
@@ -33,17 +38,32 @@ export class TableGroup extends GameObject {
       );
       table.setOrigin(0.1, 0).setDepth(zIndex.railTable);
 
-      // Draw rivet
+      // Draw top rivet
       this.group
-        .create(positionX + 63, positionY + 16, TableGroup.spriteKeyRemache)
-        .setDepth(zIndex.rivets)
-        .setOrigin(0.1, 0);
+        .create(
+          topRivetPositionX,
+          topRivetPositionY,
+          TableGroup.spriteKeyRemache
+        )
+        .setDepth(zIndex.topRivet);
+
+      // Draw bottom rivet
+      this.group
+        .create(
+          bottomRivetPositionX,
+          bottomRivetPositionY,
+          TableGroup.spriteKeyRemache
+        )
+        .setDepth(zIndex.bottomRivet);
     } else {
-      // Draw empty rivet
-      Phaser.GameObjects.Image = this.missingRemaches
-        .create(positionX, positionY, TableGroup.spriteKeyNotRemache)
-        .setDepth(zIndex.rivets)
-        .setOrigin(0.1, 0);
+      // Draw empty top rivet
+      Phaser.GameObjects.Image = this.missingRivets
+        .create(
+          topRivetPositionX,
+          topRivetPositionY,
+          TableGroup.spriteKeyNotRemache
+        )
+        .setDepth(zIndex.topRivet);
     }
   }
 
@@ -75,9 +95,9 @@ export class TableGroup extends GameObject {
       childImage.setPosition(childImage.x - dt * syncSpeed, childImage.y);
     });
 
-    this.missingRemaches.children.iterate(remachin => {
-      const remacheImage = <Phaser.GameObjects.Image>remachin;
-      remacheImage.setPosition(remacheImage.x - dt * syncSpeed, remacheImage.y);
+    this.missingRivets.children.iterate(rivet => {
+      const rivetImage = <Phaser.GameObjects.Image>rivet;
+      rivetImage.setPosition(rivetImage.x - dt * syncSpeed, rivetImage.y);
     });
   }
 }
