@@ -46,7 +46,7 @@ export class Train extends GameObject {
     this.runAudioTrack.play();
 
     this.characterSprite = scene.physics.add
-      .sprite(-150, 450, Train.characterSpriteKey)
+      .sprite(-230, 390, Train.characterSpriteKey)
       .setDepth(zIndex.character);
 
     scene.anims.create({
@@ -72,7 +72,7 @@ export class Train extends GameObject {
     this.characterSprite.anims.play(this.characterAnimations.repair);
 
     this.trainBodySprite = scene.physics.add
-      .sprite(0, 630, Train.bodySpriteKey)
+      .sprite(0, 590, Train.bodySpriteKey)
       .setDepth(zIndex.train);
 
     this.fadeoutRunAudioTween = scene.tweens.add({
@@ -110,7 +110,8 @@ export class Train extends GameObject {
       const localPosition = trainPart.getBottomCenter();
       trainPart.setPosition(
         localPosition.x + this.timeAccumulator * 0.01,
-        localPosition.y + Math.sin(this.timeAccumulator * 0.025 * this.speed)
+        localPosition.y +
+          Math.sin(this.timeAccumulator * speedFactor * this.speed)
       );
     });
   };
@@ -122,7 +123,8 @@ export class Train extends GameObject {
       const localPosition = trainPart.getBottomCenter();
       trainPart.setPosition(
         localPosition.x,
-        localPosition.y + Math.sin(this.timeAccumulator * 0.025 * this.speed)
+        localPosition.y +
+          Math.sin(this.timeAccumulator * speedFactor * this.speed)
       );
     });
   };
@@ -135,7 +137,8 @@ export class Train extends GameObject {
       const localPosition = trainPart.getBottomCenter();
       trainPart.setPosition(
         localPosition.x + this.timeAccumulator * 0.01,
-        localPosition.y + Math.sin(this.timeAccumulator * 0.025 * this.speed)
+        localPosition.y +
+          Math.sin(this.timeAccumulator * speedFactor * this.speed)
       );
     });
 

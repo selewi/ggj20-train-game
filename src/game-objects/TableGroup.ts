@@ -70,8 +70,6 @@ export class TableGroup extends GameObject {
     const eightNoteDuration = 0.25;
     const syncSpeed = (0.001 / eightNoteDuration) * distanceBetweenTables;
 
-    return;
-
     this.group.children.iterate(child => {
       const childImage = <Phaser.GameObjects.Image>child;
       childImage.setPosition(childImage.x - dt * syncSpeed, childImage.y);
