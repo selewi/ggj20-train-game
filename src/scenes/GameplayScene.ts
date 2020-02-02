@@ -1,9 +1,7 @@
 import * as Phaser from "phaser";
-// import { HUDScene, HUDSceneEvents } from "./HUDScene";
 import { Train } from "../game-objects/Train";
 import { Rails } from "../game-objects/Rails";
 import { TrackManager } from "../game-objects/TrackManager";
-import { TableGroup } from "../game-objects/TableGroup";
 import { trackData } from "../../assets/sound/track_1/";
 import { Background } from "../game-objects/Background";
 import { Particles } from "../game-objects/Particles";
@@ -55,7 +53,6 @@ export class GameplayScene extends Phaser.Scene {
       },
       failCallback: () => {
         this.train.castRepairSpell();
-        this.handleMissingRivetCrash();
       }
     });
 
