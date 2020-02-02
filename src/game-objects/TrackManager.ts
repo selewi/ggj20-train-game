@@ -9,12 +9,16 @@ export class TrackManager extends GameObject {
   private railTables: TableGroup;
 
   private readonly trackKey: string = "track";
+  private readonly beepKey: string = "beep";
   private trackMusic: Phaser.Sound.BaseSound;
-  //private middleSectionAudios: Phaser.Sound.BaseSound[] = [];
+  private trackSeconds: number = 0;
+  private trackErrorMargin: number = 0.1;
+  private noteOk: Phaser.Sound.BaseSound;
 
   public load = (scene: Phaser.Scene, newTrackData: TrackData) => {
     this.trackData = newTrackData;
     scene.load.audio(this.trackKey, this.trackData.track);
+    scene.load.audio(this.beepKey, "assets/sound/sfx/beep.wav");
   };
 
   public initialize = (scene: Phaser.Scene) => {
@@ -22,7 +26,7 @@ export class TrackManager extends GameObject {
 
     this.trackMusic.play();
 
-    // this.eightNote = 60000 / this.trackData.bpm / 2;
+    const eightNoteDuration = 60000 / this.trackData.bpm / 2;
 
     const eightNoteAmountPerSection = 16;
     const distanceBetweenTables = 200;
@@ -31,10 +35,10 @@ export class TrackManager extends GameObject {
 
     let currentTablesStartingX = tablesStartingX;
 
-    // Spawn intro tables
-    for (let i = 0; i < this.trackData.intro.length; i++) {
+    // Spawn tables
+    for (let i = 0; i < this.trackData.sections.length; i++) {
       this.railTables.batchCreate(
-        this.trackData.intro[i],
+        this.trackData.sections[i],
         currentTablesStartingX,
         tablesY,
         distanceBetweenTables
@@ -43,32 +47,36 @@ export class TrackManager extends GameObject {
         eightNoteAmountPerSection * distanceBetweenTables;
     }
 
-    // Spawn middleSection tables
-    for (let i = 0; i < this.trackData.middleSections.length; i++) {
-      this.railTables.batchCreate(
-        this.trackData.middleSections[i],
-        currentTablesStartingX,
-        tablesY,
-        distanceBetweenTables
+    // Declare player input event
+    scene.input.on("pointerdown", () => {
+      console.log("uhhhh you touch my tralalah");
+      const sectionDuration = eightNoteDuration * eightNoteAmountPerSection;
+      let currentSection = Math.floor(this.trackSeconds / sectionDuration);
+      let currentSectionPosition = Math.floor(
+        this.trackSeconds - sectionDuration * currentSection
       );
-      currentTablesStartingX +=
-        eightNoteAmountPerSection * distanceBetweenTables;
-    }
+      let nearestNoteToCurPosition = Math.round(
+        currentSectionPosition / eightNoteDuration
+      );
+      let nearestNoteRealTime = nearestNoteToCurPosition * eightNoteDuration;
 
-    // Spawn outro tables
-    for (let i = 0; i < this.trackData.outro.length; i++) {
-      this.railTables.batchCreate(
-        this.trackData.outro[i],
-        currentTablesStartingX,
-        tablesY,
-        distanceBetweenTables
-      );
-      currentTablesStartingX +=
-        eightNoteAmountPerSection * distanceBetweenTables;
-    }
+      if (
+        this.trackSeconds >= nearestNoteRealTime - this.trackErrorMargin ||
+        this.trackSeconds <= nearestNoteRealTime + this.trackErrorMargin
+      ) {
+        // Note entered
+        this.noteOk.play();
+      }
+
+      //let timestampHasNote = this.trackSeconds;
+    });
   };
 
   public setRailTables = (newRailTables: TableGroup) => {
     this.railTables = newRailTables;
   };
+
+  public update(dt: number) {
+    this.trackSeconds += dt;
+  }
 }
