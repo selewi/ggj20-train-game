@@ -5,6 +5,15 @@ export const spriteAssets = {
   table: "assets/sprites/MADERA.png",
   remache: "assets/sprites/remache.png",
   notRemache: "assets/sprites/not_remache.png",
+
+  baseBackground: "assets/sprites/base_background.jpg",
+  parallaxBackground: [
+    "assets/sprites/background-0.png",
+    "assets/sprites/background-1.png",
+    "assets/sprites/background-2.png"
+  ],
+  smokeParticle: "assets/sprites/particle_2.png",
+  sparkParticle: "assets/sprites/spark.png"
 };
 
 export const uiAssets = {
