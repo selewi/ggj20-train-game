@@ -46,7 +46,7 @@ export class Train extends GameObject {
     this.runAudioTrack.play();
 
     this.characterSprite = scene.physics.add
-      .sprite(-230, 390, Train.characterSpriteKey)
+      .sprite(-250, 390, Train.characterSpriteKey)
       .setDepth(zIndex.character);
 
     scene.anims.create({
@@ -69,7 +69,7 @@ export class Train extends GameObject {
       repeat: -1
     });
 
-    this.characterSprite.anims.play(this.characterAnimations.repair);
+    this.characterSprite.anims.play(this.characterAnimations.idle);
 
     this.trainBodySprite = scene.physics.add
       .sprite(0, 590, Train.bodySpriteKey)
