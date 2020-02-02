@@ -4,14 +4,18 @@ import { GameObject } from "./GameObject";
 import { speedFactor } from "../data/Global";
 
 export class TableGroup extends GameObject {
-  public static spriteKey: string = spriteAssets.table.toString();
+  public static spriteKeyTable: string = spriteAssets.table.toString();
+  public static spriteKeyRemache = spriteAssets.remache.toString();
+  public static spriteKeyNotRemache = spriteAssets.notRemache.toString();
 
   public group: Phaser.GameObjects.Group;
 
   public speed: number = 0;
 
   public load = (scene: Phaser.Scene) => {
-    scene.load.image(TableGroup.spriteKey, spriteAssets.table);
+    scene.load.image(TableGroup.spriteKeyTable, spriteAssets.table);
+    scene.load.image(TableGroup.spriteKeyRemache, spriteAssets.remache);
+    scene.load.image(TableGroup.spriteKeyNotRemache, spriteAssets.notRemache);
   };
 
   public initialize = (scene: Phaser.Scene) => {
@@ -23,13 +27,25 @@ export class TableGroup extends GameObject {
       const table: Phaser.GameObjects.Image = this.group.create(
         positionX,
         positionY,
-        TableGroup.spriteKey
+        TableGroup.spriteKeyTable,
       );
       table.setOrigin(0.1, 0);
 
       // Dibujar remache
+      const remache: Phaser.GameObjects.Image = this.group.create(
+        positionX,
+        positionY,
+        TableGroup.spriteKeyRemache,
+      );
+      remache.setOrigin(0.1, 0);
     } else {
       // Dibujar remache vacio
+      const notRemache: Phaser.GameObjects.Image = this.group.create(
+        positionX,
+        positionY,
+        TableGroup.spriteKeyNotRemache,
+      );
+      notRemache.setOrigin(0.1, 0);
     }
   }
 
@@ -37,7 +53,7 @@ export class TableGroup extends GameObject {
     batch: string,
     positionX: number,
     positionY: number,
-    xSeparation: number
+    xSeparation: number,
   ) {
     let batchArray: string[] = batch.split("");
 
