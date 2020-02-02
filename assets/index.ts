@@ -23,7 +23,8 @@ export const uiAssets = {
     pressed: "assets/sprites/UI/button_pressed.png",
     released: "assets/sprites/UI/button_released.png"
   },
-  vignette: "assets/sprites/UI/vignette.png"
+  vignette: "assets/sprites/UI/vignette.png",
+  background: "assets/sprites/UI/backgroundMenu.jpg"
 };
 
 export const soundAssets = {
