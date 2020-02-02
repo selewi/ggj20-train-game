@@ -7,19 +7,37 @@ export class TableGroup extends GameObject {
   public static spriteKeyTable: string = spriteAssets.table.toString();
   public static spriteKeyRemache = spriteAssets.remache.toString();
   public static spriteKeyNotRemache = spriteAssets.notRemache.toString();
+  public static spriteKeyFrontFloor = spriteAssets.railsFrontFloor.toString();
+  public static spriteKeyBackFloor = spriteAssets.railsBackFloor.toString();
 
   public group: Phaser.GameObjects.Group;
   public missingRivets: Phaser.Physics.Arcade.Group;
-
+  private frontFloor: Phaser.GameObjects.TileSprite;
+  private backFloor: Phaser.GameObjects.TileSprite;
   public speed: number = 0;
 
   public load = (scene: Phaser.Scene) => {
     scene.load.image(TableGroup.spriteKeyTable, spriteAssets.table);
     scene.load.image(TableGroup.spriteKeyRemache, spriteAssets.remache);
     scene.load.image(TableGroup.spriteKeyNotRemache, spriteAssets.notRemache);
+    scene.load.image(
+      TableGroup.spriteKeyFrontFloor,
+      spriteAssets.railsFrontFloor
+    );
+    scene.load.image(
+      TableGroup.spriteKeyBackFloor,
+      spriteAssets.railsBackFloor
+    );
   };
 
   public initialize = (scene: Phaser.Scene) => {
+    this.frontFloor = scene.add
+      .tileSprite(640, 400, 1280, 720, TableGroup.spriteKeyFrontFloor)
+      .setDepth(zIndex.froontFloor);
+    this.backFloor = scene.add
+      .tileSprite(640, 400, 1280, 720, TableGroup.spriteKeyBackFloor)
+      .setDepth(zIndex.backFloor);
+
     this.group = scene.add.group();
     this.missingRivets = scene.physics.add.group();
   };
@@ -98,7 +116,6 @@ export class TableGroup extends GameObject {
     const distanceBetweenTables = 200;
     const eightNoteDuration = 0.25;
     const syncSpeed = (0.001 / eightNoteDuration) * distanceBetweenTables;
-
     this.group.children.iterate(child => {
       const childImage = <Phaser.GameObjects.Image>child;
       childImage.setPosition(childImage.x - dt * syncSpeed, childImage.y);
@@ -108,6 +125,11 @@ export class TableGroup extends GameObject {
       const rivetImage = <Phaser.GameObjects.Image>rivet;
       rivetImage.setPosition(rivetImage.x - dt * syncSpeed, rivetImage.y);
     });
+
+    this.frontFloor.tilePositionX =
+      this.frontFloor.tilePositionX + dt * syncSpeed;
+    this.backFloor.tilePositionX =
+      this.backFloor.tilePositionX + dt * syncSpeed;
   }
 
   public noteIsActive(section: string, noteId: number) {

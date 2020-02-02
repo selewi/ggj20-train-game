@@ -19,7 +19,7 @@ export class Particles extends GameObject {
   public smokeEmitter: Phaser.GameObjects.Particles.ParticleEmitter;
 
   public sparkEmitterConfig: Phaser.Types.GameObjects.Particles.ParticleEmitterConfig = {
-    frequency: 0,
+    frequency: 1,
     x: { min: 300, max: 350 },
     y: { min: 600, max: 630 },
     lifespan: { min: 250, max: 800 },
