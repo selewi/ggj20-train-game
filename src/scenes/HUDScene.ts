@@ -1,31 +1,28 @@
 import * as Phaser from "phaser";
+import { startingLives } from "../data/Global";
 
 export enum HUDSceneEvents {
-  updateScoreText = "updateScoreText"
+  reduceLife = "reduceLife"
 }
 
 export class HUDScene extends Phaser.Scene {
-  private scoreText: Phaser.GameObjects.Text;
+  private livesText: Phaser.GameObjects.Text;
 
   constructor() {
     super(sceneConfig);
   }
 
   public create() {
-    this.scoreText = this.add.text(10, 10, "Score: 0", {
+    this.livesText = this.add.text(10, 10, `Lives: ${startingLives}`, {
       font: "48px Arial",
       fill: "#eeeeee"
     });
 
-    this.events.on(HUDSceneEvents.updateScoreText, this.updateScoreText);
+    this.events.on(HUDSceneEvents.reduceLife, this.showLives);
   }
 
-  public update() {
-    // TODO
-  }
-
-  public updateScoreText = (newValue: number) => {
-    this.scoreText.setText(`Score: ${newValue}`);
+  public showLives = (amount: number) => {
+    this.livesText.setText(`Lives: ${amount}`);
   };
 }
 

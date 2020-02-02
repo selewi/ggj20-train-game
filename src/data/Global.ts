@@ -1,3 +1,4 @@
+export const startingLives = 3;
 export const speedFactor = 0.01;
 export const zIndex = {
   background: 0,
