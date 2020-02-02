@@ -1,12 +1,14 @@
 import { TrackData } from "../../../src/data/TrackData";
 
 export const trackData: TrackData = {
-  bpm: 120,
-  intro: "foo",
+  bpm: 200,
+  track: "assets/sound/track_1/Music_120BPM.ogg",
+  intro: ["0000000000000000"],
   middleSections: [
-    "assets/sound/track_1/baa_1001000010010000.wav",
-    "assets/sound/track_1/baa_1001010100000000.wav",
-    "assets/sound/track_1/baa_1010101010000010.wav"
+    "1000000010000000",
+    "1010101010000010",
+    "1000001010000000",
+    "1001000010000000"
   ],
-  outro: "bar"
+  outro: ["0000000000000000"]
 };

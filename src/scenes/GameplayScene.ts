@@ -22,6 +22,7 @@ export class GameplayScene extends Phaser.Scene {
   private trackManager: TrackManager = new TrackManager();
   private railTables: TableGroup = new TableGroup();
   private currentState: GameplaySceneState = GameplaySceneState.gameStart;
+  private init = false;
 
   constructor() {
     super(sceneConfig);
@@ -38,14 +39,14 @@ export class GameplayScene extends Phaser.Scene {
     this.railTables.initialize(this);
 
     this.trackManager.setRailTables(this.railTables);
-    this.trackManager.initialize(this);
+    this.init = false;
 
     this.rails.initialize(this);
 
     this.train.initialize(this);
 
-    this.train.setSpeed(120);
-    this.railTables.setSpeed(120);
+    this.train.setSpeed(trackData.bpm);
+    this.railTables.setSpeed(trackData.bpm);
 
     // this.hud = this.scene.get(HUDScene.name);
     // this.scene.launch(HUDScene.name);
@@ -53,11 +54,16 @@ export class GameplayScene extends Phaser.Scene {
   }
 
   public update(t: number, dt: number) {
+    console.log(t);
     switch (this.currentState) {
       case GameplaySceneState.gameStart:
         this.handleGameStart(dt);
         break;
       case GameplaySceneState.gameplay:
+        if (!this.init) {
+          this.trackManager.initialize(this);
+          this.init = true;
+        }
         this.handleGameplay(dt);
         break;
       case GameplaySceneState.gameEnd:

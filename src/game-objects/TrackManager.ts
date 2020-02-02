@@ -8,35 +8,63 @@ export class TrackManager extends GameObject {
 
   private railTables: TableGroup;
 
-  private middleSectionKeys: string[] = [];
-  private middleSectionAudios: Phaser.Sound.BaseSound[] = [];
+  private readonly track: string = "track";
+  private trackMusic: Phaser.Sound.BaseSound;
+  //private middleSectionAudios: Phaser.Sound.BaseSound[] = [];
 
   public load = (scene: Phaser.Scene, newTrackData: TrackData) => {
     this.trackData = newTrackData;
-    this.trackData.middleSections.forEach((section, index) => {
-      this.middleSectionKeys.push(section.toString());
-      scene.load.audio(section.toString(), section);
-    });
+    scene.load.audio(this.track, this.trackData.track);
   };
 
   public initialize = (scene: Phaser.Scene) => {
-    this.middleSectionKeys.forEach(key => {
-      this.middleSectionAudios.push(scene.sound.add(key));
-    });
+    this.trackMusic = scene.sound.add(this.track);
 
-    this.middleSectionAudios[0].play();
+    this.trackMusic.play();
 
     // this.eightNote = 60000 / this.trackData.bpm / 2;
 
-    // Random amount of sections + intro + ending
-    const songSectionAmount = Math.round(Math.random() * 3 + 1) + 2;
     const eightNoteAmountPerSection = 16;
-
-    const tablesToSpawn = eightNoteAmountPerSection * songSectionAmount;
     const distanceBetweenTables = 200;
+    const tablesStartingX = 500;
+    const tablesY = 550;
 
-    for (let i = 0; i <= tablesToSpawn; i++) {
-      this.railTables.create(true, 500 + distanceBetweenTables * i, 550);
+    let currentTablesStartingX = tablesStartingX;
+
+    // Spawn intro tables
+    for (let i = 0; i < this.trackData.intro.length; i++) {
+      this.railTables.batchCreate(
+        this.trackData.intro[i],
+        currentTablesStartingX,
+        tablesY,
+        distanceBetweenTables
+      );
+      currentTablesStartingX +=
+        eightNoteAmountPerSection * distanceBetweenTables;
+    }
+
+    // Spawn middleSection tables
+    for (let i = 0; i < this.trackData.middleSections.length; i++) {
+      this.railTables.batchCreate(
+        this.trackData.middleSections[i],
+        currentTablesStartingX,
+        tablesY,
+        distanceBetweenTables
+      );
+      currentTablesStartingX +=
+        eightNoteAmountPerSection * distanceBetweenTables;
+    }
+
+    // Spawn outro tables
+    for (let i = 0; i < this.trackData.outro.length; i++) {
+      this.railTables.batchCreate(
+        this.trackData.outro[i],
+        currentTablesStartingX,
+        tablesY,
+        distanceBetweenTables
+      );
+      currentTablesStartingX +=
+        eightNoteAmountPerSection * distanceBetweenTables;
     }
   };
 
