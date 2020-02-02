@@ -28,7 +28,7 @@ export class MenuScene extends Phaser.Scene {
     });
 
     this.title.initialize(this, {
-      text: "-Rail Rider-",
+      text: "Rail Rider",
       position: {
         x: game.scale.width / 2,
         y: game.scale.height * 0.25

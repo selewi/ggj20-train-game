@@ -27,10 +27,10 @@ export class Title extends GameObject {
     } = props || {};
 
     this.text = scene.add.text(position.x, position.y, text, {
-      font: "200px Racing Sans One",
+      font: "200px Kelly Slab",
       fill: "#000",
       stroke: "#fff",
-      strokeThickness: 5
+      strokeThickness: 6
     });
     this.text.setOrigin(origin.x, origin.y);
   }
