@@ -22,12 +22,14 @@ export const uiAssets = {
   button: {
     pressed: "assets/sprites/UI/button_pressed.png",
     released: "assets/sprites/UI/button_released.png"
-  }
+  },
+  vignette: "assets/sprites/UI/vignette.png"
 };
 
 export const soundAssets = {
   sfx: {
     trainRun: "assets/sound/SFX/TrainRun.wav",
+    trainHit: "assets/sound/SFX/TrainHit.wav",
     horn: "assets/sound/SFX/StartingHorn.wav"
   },
   menuMusic: "assets/sound/Menu_Music.ogg"

@@ -2,28 +2,32 @@ import { GameObject } from "./GameObject";
 import { TrackData } from "../data/TrackData";
 import { TableGroup } from "./TableGroup";
 
+interface TrackManagerProps {
+  successCallback: (noteIndex: number) => void;
+  failCallback: () => void;
+}
+
 export class TrackManager extends GameObject {
   private trackData: TrackData;
-  // private eightNote: number = 0;
-
   private railTables: TableGroup;
 
   private readonly trackKey: string = "track";
   private readonly beepKey: string = "beep";
   private trackMusic: Phaser.Sound.BaseSound;
   private trackSeconds: number = 0;
-  private trackErrorMargin: number = 0.1;
-  private noteOk: Phaser.Sound.BaseSound;
+  private trackErrorMargin: number = 120;
+  private text: Phaser.GameObjects.Text;
 
   public load = (scene: Phaser.Scene, newTrackData: TrackData) => {
     this.trackData = newTrackData;
     scene.load.audio(this.trackKey, this.trackData.track);
-    scene.load.audio(this.beepKey, "assets/sound/sfx/beep.wav");
+    scene.load.audio(this.beepKey, "../../assets/sprites/beep.wav");
   };
 
-  public initialize = (scene: Phaser.Scene) => {
-    this.trackMusic = scene.sound.add(this.trackKey);
+  public initialize = (scene: Phaser.Scene, props: TrackManagerProps) => {
+    this.text = scene.add.text(16, 16, this.trackSeconds.toString());
 
+    this.trackMusic = scene.sound.add(this.trackKey);
     this.trackMusic.play();
 
     const eightNoteDuration = 60000 / this.trackData.bpm / 2;
@@ -49,26 +53,40 @@ export class TrackManager extends GameObject {
 
     // Declare player input event
     scene.input.on("pointerdown", () => {
-      console.log("uhhhh you touch my tralalah");
       const sectionDuration = eightNoteDuration * eightNoteAmountPerSection;
-      let currentSection = Math.floor(this.trackSeconds / sectionDuration);
+      let currentSectionId = Math.floor(this.trackSeconds / sectionDuration);
+      let currentSection = this.trackData.sections[currentSectionId];
       let currentSectionPosition = Math.floor(
-        this.trackSeconds - sectionDuration * currentSection
+        this.trackSeconds - sectionDuration * currentSectionId
       );
-      let nearestNoteToCurPosition = Math.round(
+      let currentNoteId = Math.round(
         currentSectionPosition / eightNoteDuration
       );
-      let nearestNoteRealTime = nearestNoteToCurPosition * eightNoteDuration;
+      let noteIsActive = this.railTables.noteIsActive(
+        currentSection,
+        currentNoteId
+      );
+
+      let currentNoteRealTime = currentNoteId * eightNoteDuration;
+
+      console.log("current section id: " + currentSectionId.toString());
+      console.log("current section: " + currentSection.toString());
+      console.log("current note id: " + currentNoteId.toString());
+      console.log("note is active: " + noteIsActive.toString());
+      console.log(
+        "current section position: " + currentSectionPosition.toString()
+      );
+      console.log("nearest note pos: " + currentNoteRealTime.toString());
 
       if (
-        this.trackSeconds >= nearestNoteRealTime - this.trackErrorMargin ||
-        this.trackSeconds <= nearestNoteRealTime + this.trackErrorMargin
+        currentSectionPosition <= currentNoteRealTime - this.trackErrorMargin &&
+        currentSectionPosition >= currentNoteRealTime + this.trackErrorMargin
       ) {
-        // Note entered
-        this.noteOk.play();
+        return;
       }
 
-      //let timestampHasNote = this.trackSeconds;
+      const absNoteIndex = 0;
+      noteIsActive ? props.successCallback(absNoteIndex) : props.failCallback();
     });
   };
 
@@ -78,5 +96,7 @@ export class TrackManager extends GameObject {
 
   public update(dt: number) {
     this.trackSeconds += dt;
+
+    this.text.text = this.trackSeconds.toString();
   }
 }

@@ -1,12 +1,12 @@
 import { TrackData } from "../../../src/data/TrackData";
 
 export const trackData: TrackData = {
-  bpm: 200,
+  bpm: 120,
   track: "assets/sound/track_1/Music_120BPM.ogg",
   //intro: ["0000000000000000"],
   sections: [
     // intro:
-    "0000000000000000",
+    "1000000000000000",
     // middle sections:
     "1000000010000000",
     "1010101010000010",
@@ -21,6 +21,6 @@ export const trackData: TrackData = {
     "1001000000110000",
     "1010101000110000",
     // outro:
-    "0000000000000000",
-  ],
+    "0000000000000000"
+  ]
 };
