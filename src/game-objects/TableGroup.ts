@@ -34,7 +34,7 @@ export class TableGroup extends GameObject {
       const table: Phaser.GameObjects.Image = this.group.create(
         positionX,
         positionY,
-        TableGroup.spriteKeyTable
+        TableGroup.spriteKeyTable,
       );
       table.setOrigin(0.1, 0).setDepth(zIndex.railTable);
 
@@ -43,7 +43,7 @@ export class TableGroup extends GameObject {
         .create(
           topRivetPositionX,
           topRivetPositionY,
-          TableGroup.spriteKeyRemache
+          TableGroup.spriteKeyRemache,
         )
         .setDepth(zIndex.topRivet);
 
@@ -52,7 +52,7 @@ export class TableGroup extends GameObject {
         .create(
           bottomRivetPositionX,
           bottomRivetPositionY,
-          TableGroup.spriteKeyRemache
+          TableGroup.spriteKeyRemache,
         )
         .setDepth(zIndex.bottomRivet);
     } else {
@@ -61,7 +61,7 @@ export class TableGroup extends GameObject {
         .create(
           topRivetPositionX,
           topRivetPositionY - 10,
-          TableGroup.spriteKeyNotRemache
+          TableGroup.spriteKeyNotRemache,
         )
         .setDepth(zIndex.topRivet);
 
@@ -70,7 +70,7 @@ export class TableGroup extends GameObject {
         .create(
           bottomRivetPositionX,
           bottomRivetPositionY - 10,
-          TableGroup.spriteKeyNotRemache
+          TableGroup.spriteKeyNotRemache,
         )
         .setDepth(zIndex.bottomRivet);
     }
@@ -80,7 +80,7 @@ export class TableGroup extends GameObject {
     batch: string,
     positionX: number,
     positionY: number,
-    xSeparation: number
+    xSeparation: number,
   ) {
     let batchArray: string[] = batch.split("");
 

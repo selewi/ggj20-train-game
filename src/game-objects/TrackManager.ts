@@ -78,16 +78,17 @@ export class TrackManager extends GameObject {
       );
       console.log("nearest note pos: " + currentNoteRealTime.toString());
 
-      if (
-        currentSectionPosition <= currentNoteRealTime - this.trackErrorMargin &&
-        currentSectionPosition >= currentNoteRealTime + this.trackErrorMargin
-      ) {
-        return;
-      }
-
       const absNoteIndex =
         currentSectionId * eightNoteAmountPerSection + currentNoteId;
-      noteIsActive ? props.successCallback(absNoteIndex) : props.failCallback();
+
+      if (
+        currentSectionPosition >= currentNoteRealTime - this.trackErrorMargin &&
+        currentSectionPosition <= currentNoteRealTime + this.trackErrorMargin
+      ) {
+        noteIsActive
+          ? props.successCallback(absNoteIndex)
+          : props.failCallback();
+      }
     });
   };
 

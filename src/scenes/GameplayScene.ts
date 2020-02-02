@@ -13,7 +13,7 @@ import { startingLives } from "../data/Global";
 enum GameplaySceneState {
   gameStart,
   gameplay,
-  gameEnd
+  gameEnd,
 }
 
 export class GameplayScene extends Phaser.Scene {
@@ -63,9 +63,9 @@ export class GameplayScene extends Phaser.Scene {
       this.railTables.missingRivets,
       (trainBodySprite, missingRivetSprite) => {
         this.handleMissingRivetCrash(
-          <Phaser.Physics.Arcade.Sprite>missingRivetSprite
+          <Phaser.Physics.Arcade.Sprite>missingRivetSprite,
         );
-      }
+      },
     );
 
     this.hud = this.scene.get(HUDScene.name);
@@ -82,10 +82,11 @@ export class GameplayScene extends Phaser.Scene {
           this.trackManager.initialize(this, {
             successCallback: absNoteIndex => {
               console.log(absNoteIndex);
+              this.handleMissingRivetCrash();
             },
             failCallback: () => {
-              this.handleMissingRivetCrash();
-            }
+              //this.handleMissingRivetCrash();
+            },
           });
           this.init = true;
         }
@@ -100,7 +101,7 @@ export class GameplayScene extends Phaser.Scene {
   private handleGameStart = (dt: number) => {
     this.train.playIntroAnimation(
       dt,
-      () => (this.currentState = GameplaySceneState.gameplay)
+      () => (this.currentState = GameplaySceneState.gameplay),
     );
   };
 
@@ -120,7 +121,7 @@ export class GameplayScene extends Phaser.Scene {
   };
 
   private handleMissingRivetCrash = (
-    missingRivet?: Phaser.Physics.Arcade.Sprite
+    missingRivet?: Phaser.Physics.Arcade.Sprite,
   ) => {
     missingRivet && missingRivet.disableBody();
     this.train.crash();
@@ -137,5 +138,5 @@ export class GameplayScene extends Phaser.Scene {
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: GameplayScene.name
+  key: GameplayScene.name,
 };
