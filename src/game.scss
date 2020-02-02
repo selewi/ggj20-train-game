@@ -1,5 +1,4 @@
 $mainFont: "Kelly Slab", cursive;
-
 * {
   box-sizing: border-box;
 }
@@ -43,6 +42,8 @@ body {
       width: 100%;
       height: 100%;
     }
+    transform: scale(5);
+    animation: scale 1s ease-in forwards;
   }
 }
 
@@ -100,5 +101,11 @@ body {
     @media (min-width: 600px) {
       background-size: cover;
     }
+  }
+}
+
+@keyframes scale {
+  to {
+    transform: scale(1);
   }
 }
