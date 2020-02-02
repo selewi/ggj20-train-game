@@ -46,7 +46,7 @@ export class Button extends GameObject {
     });
     this.text = scene.add.text(position.x, position.y, text, {
       font: "24px Kelly Slab",
-      fill: "#eeeeee"
+      fill: "#000"
     });
     this.text.setOrigin(origin.x, origin.y);
   }
