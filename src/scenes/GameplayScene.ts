@@ -54,7 +54,6 @@ export class GameplayScene extends Phaser.Scene {
   }
 
   public update(t: number, dt: number) {
-    console.log(t);
     switch (this.currentState) {
       case GameplaySceneState.gameStart:
         this.handleGameStart(dt);
@@ -67,6 +66,7 @@ export class GameplayScene extends Phaser.Scene {
         this.handleGameplay(dt);
         break;
       case GameplaySceneState.gameEnd:
+        this.handleGameEnd(dt);
         break;
     }
   }
@@ -84,7 +84,9 @@ export class GameplayScene extends Phaser.Scene {
     this.moveEnvironment(dt);
   };
 
-  // private handleGameEnd = (dt: number) => {};
+  private handleGameEnd = (dt: number) => {
+    this.train.playWinAnimation(dt);
+  };
 
   // private addScore = () => {
   //   this.score += 1;

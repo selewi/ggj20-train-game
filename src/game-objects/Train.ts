@@ -59,5 +59,16 @@ export class Train extends GameObject {
     });
   };
 
-  public playWinAnimation = () => {};
+  public playWinAnimation = (dt: number) => {
+    this.timeAccumulator += dt;
+    this.requiredIntroDistance -= this.timeAccumulator * 0.01;
+
+    this.trainParts.forEach(trainPart => {
+      const localPosition = trainPart.getBottomCenter();
+      trainPart.setPosition(
+        localPosition.x + this.timeAccumulator * 0.01,
+        localPosition.y + Math.sin(this.timeAccumulator * 0.025 * this.speed)
+      );
+    });
+  };
 }
