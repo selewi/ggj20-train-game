@@ -77,4 +77,10 @@ export class TableGroup extends GameObject {
       childImage.setPosition(childImage.x - dt * syncSpeed, childImage.y);
     });
   }
+
+  public noteIsActive(section: string, noteId: number) {
+    let note: string = section.split("")[noteId];
+    let noteIsActive = Boolean(parseInt(note));
+    return noteIsActive;
+  }
 }
