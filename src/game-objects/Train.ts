@@ -5,12 +5,16 @@ import { Tweens } from "phaser";
 
 export class Train extends GameObject {
   private static bodySpriteKey = spriteAssets.trainBody.toString();
+  private static grillSpriteKey = spriteAssets.grill.toString();
+  private static tailpipeSpriteKey = spriteAssets.tailpipe.toString();
   private static characterSpriteKey = spriteAssets.character.toString();
   private static runAudioKey = soundAssets.sfx.trainRun.toString();
   private static hitAudioKey = soundAssets.sfx.trainHit.toString();
   private static hornKey = soundAssets.sfx.horn.toString();
 
   public trainBodySprite: Phaser.Physics.Arcade.Sprite;
+  public grillSprite: Phaser.Physics.Arcade.Sprite;
+  public tailpipeSprite: Phaser.Physics.Arcade.Sprite;
 
   private characterSprite: Phaser.GameObjects.Sprite;
   private trainParts: Array<Phaser.GameObjects.Image> = [];
@@ -26,16 +30,18 @@ export class Train extends GameObject {
 
   private readonly characterAnimations = {
     idle: "idle",
-    repair: "repair"
+    repair: "repair",
   };
 
   public load = (scene: Phaser.Scene) => {
     scene.load.spritesheet(Train.characterSpriteKey, spriteAssets.character, {
       frameWidth: 154,
-      frameHeight: 143
+      frameHeight: 143,
     });
 
     scene.load.image(Train.bodySpriteKey, spriteAssets.trainBody);
+    scene.load.image(Train.grillSpriteKey, spriteAssets.grill);
+    scene.load.image(Train.tailpipeSpriteKey, spriteAssets.tailpipe);
     scene.load.audio(Train.runAudioKey, soundAssets.sfx.trainRun);
     scene.load.audio(Train.hitAudioKey, soundAssets.sfx.trainHit);
     scene.load.audio(Train.hornKey, soundAssets.sfx.horn);
@@ -57,20 +63,20 @@ export class Train extends GameObject {
       key: this.characterAnimations.idle,
       frames: scene.anims.generateFrameNumbers(Train.characterSpriteKey, {
         start: 0,
-        end: 4
+        end: 4,
       }),
       frameRate: 8,
-      repeat: -1
+      repeat: -1,
     });
 
     scene.anims.create({
       key: this.characterAnimations.repair,
       frames: scene.anims.generateFrameNumbers(Train.characterSpriteKey, {
         start: 5,
-        end: 9
+        end: 9,
       }),
       frameRate: 8,
-      repeat: -1
+      repeat: -1,
     });
 
     this.characterSprite.anims.play(this.characterAnimations.repair);
@@ -79,15 +85,25 @@ export class Train extends GameObject {
       .sprite(0, 590, Train.bodySpriteKey)
       .setDepth(zIndex.train);
 
+    this.grillSprite = scene.physics.add
+      .sprite(-20, 570, Train.grillSpriteKey)
+      .setDepth(zIndex.grill);
+
+    this.tailpipeSprite = scene.physics.add
+      .sprite(-485, 525, Train.tailpipeSpriteKey)
+      .setDepth(zIndex.tailpipe);
+
     this.fadeoutRunAudioTween = scene.tweens.add({
       targets: this.runAudioTrack,
       volume: 0,
       duration: 1000,
       paused: true,
-      onComplete: () => this.runAudioTrack.stop()
+      onComplete: () => this.runAudioTrack.stop(),
     });
 
     this.trainParts.push(this.trainBodySprite);
+    this.trainParts.push(this.grillSprite);
+    this.trainParts.push(this.tailpipeSprite);
     this.trainParts.push(this.characterSprite);
 
     this.trainParts.forEach(trainPart => {
@@ -115,7 +131,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x + this.timeAccumulator * 0.01,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed)
+          Math.sin(this.timeAccumulator * speedFactor * this.speed),
       );
     });
   };
@@ -128,7 +144,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed)
+          Math.sin(this.timeAccumulator * speedFactor * this.speed),
       );
     });
   };
@@ -142,7 +158,7 @@ export class Train extends GameObject {
       trainPart.setPosition(
         localPosition.x + this.timeAccumulator * 0.01,
         localPosition.y +
-          Math.sin(this.timeAccumulator * speedFactor * this.speed)
+          Math.sin(this.timeAccumulator * speedFactor * this.speed),
       );
     });
 

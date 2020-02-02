@@ -1,6 +1,8 @@
 export const spriteAssets = {
   skull: "assets/sprites/skull.png",
   trainBody: "assets/sprites/locomotive.png",
+  grill: "assets/sprites/grill.png",
+  tailpipe: "assets/sprites/tailpipe.png",
   rails: "assets/sprites/rails.png",
   table: "assets/sprites/MADERA.png",
   remache: "assets/sprites/remache.png",

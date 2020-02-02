@@ -3,7 +3,7 @@ import { startingLives } from "../data/Global";
 import { uiAssets } from "../../assets/";
 
 export enum HUDSceneEvents {
-  reduceLife = "reduceLife"
+  reduceLife = "reduceLife",
 }
 
 export class HUDScene extends Phaser.Scene {
@@ -23,7 +23,7 @@ export class HUDScene extends Phaser.Scene {
   public create() {
     this.livesText = this.add.text(10, 10, `Lives: ${startingLives}`, {
       font: "48px Arial",
-      fill: "#eeeeee"
+      fill: "#eeeeee",
     });
 
     this.events.on(HUDSceneEvents.reduceLife, this.showLives);
@@ -43,5 +43,5 @@ export class HUDScene extends Phaser.Scene {
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: HUDScene.name
+  key: HUDScene.name,
 };
