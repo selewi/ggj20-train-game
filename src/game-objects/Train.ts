@@ -1,13 +1,19 @@
 import { GameObject } from "./GameObject";
 import { spriteAssets, soundAssets } from "../../assets/";
 import { speedFactor, zIndex } from "../data/Global";
-import { Tweens } from "phaser";
+import { Tweens, Scene } from "phaser";
+import { Particles } from "../game-objects/Particles";
+
+export type trainPartsTyp =
+  | Phaser.GameObjects.Image
+  | Phaser.Types.GameObjects.Particles.ParticleEmitterConfig;
 
 export class Train extends GameObject {
   private static bodySpriteKey = spriteAssets.trainBody.toString();
   private static characterSpriteKey = spriteAssets.character.toString();
   private static runAudioKey = soundAssets.sfx.trainRun.toString();
   private static hornKey = soundAssets.sfx.horn.toString();
+  private particles = new Particles();
 
   public trainBodySprite: Phaser.Physics.Arcade.Sprite;
 
@@ -44,7 +50,7 @@ export class Train extends GameObject {
 
     this.hornAudioTrack.play();
     this.runAudioTrack.play();
-
+    this.particles.initialize(scene);
     this.characterSprite = scene.physics.add
       .sprite(-230, 390, Train.characterSpriteKey)
       .setDepth(zIndex.character);
@@ -90,6 +96,8 @@ export class Train extends GameObject {
       trainPart.setOrigin(0.5, 1);
       trainPart.setPosition(trainPart.x - trainPart.width / 2, trainPart.y);
     });
+    this.particles.smokeEmitter.startFollow(this.trainBodySprite, -100, -630);
+    this.particles.sparkEmitter.startFollow(this.trainBodySprite, -100, -630);
   };
 
   public setSpeed = (newSpeed: number) => {
