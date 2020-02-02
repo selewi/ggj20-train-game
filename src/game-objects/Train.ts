@@ -1,21 +1,38 @@
 import { GameObject } from "./GameObject";
-import { spriteAssets } from "../../assets/index";
+import { spriteAssets, soundAssets } from "../../assets/";
 import { speedFactor } from "../data/Global";
+import { Tweens } from "phaser";
 
 export class Train extends GameObject {
   private static bodySpriteKey = spriteAssets.trainBody.toString();
+  private static runAudioKey = soundAssets.sfx.trainRun.toString();
 
   private trainParts: Array<Phaser.GameObjects.Image> = [];
+  private runAudioTrack: Phaser.Sound.BaseSound;
 
   private requiredIntroDistance = 400;
   private timeAccumulator = 0;
   private speed = 0;
 
+  private fadeoutRunAudioTween: Tweens.Tween;
+
   public load = (scene: Phaser.Scene) => {
     scene.load.image(Train.bodySpriteKey, spriteAssets.trainBody);
+    scene.load.audio(Train.runAudioKey, soundAssets.sfx.trainRun);
   };
 
   public initialize = (scene: Phaser.Scene) => {
+    this.runAudioTrack = scene.sound.add(Train.runAudioKey, { loop: true });
+    this.runAudioTrack.play();
+
+    this.fadeoutRunAudioTween = scene.tweens.add({
+      targets: this.runAudioTrack,
+      volume: 0,
+      duration: 1000,
+      paused: true,
+      onComplete: () => this.runAudioTrack.stop()
+    });
+
     this.trainParts.push(scene.add.image(0, 630, Train.bodySpriteKey));
 
     this.trainParts.forEach(trainPart => {
@@ -70,5 +87,8 @@ export class Train extends GameObject {
         localPosition.y + Math.sin(this.timeAccumulator * 0.025 * this.speed)
       );
     });
+
+    if (!this.fadeoutRunAudioTween.isPlaying())
+      this.fadeoutRunAudioTween.play();
   };
 }

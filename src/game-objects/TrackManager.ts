@@ -8,17 +8,17 @@ export class TrackManager extends GameObject {
 
   private railTables: TableGroup;
 
-  private readonly track: string = "track";
+  private readonly trackKey: string = "track";
   private trackMusic: Phaser.Sound.BaseSound;
   //private middleSectionAudios: Phaser.Sound.BaseSound[] = [];
 
   public load = (scene: Phaser.Scene, newTrackData: TrackData) => {
     this.trackData = newTrackData;
-    scene.load.audio(this.track, this.trackData.track);
+    scene.load.audio(this.trackKey, this.trackData.track);
   };
 
   public initialize = (scene: Phaser.Scene) => {
-    this.trackMusic = scene.sound.add(this.track);
+    this.trackMusic = scene.sound.add(this.trackKey);
 
     this.trackMusic.play();
 

@@ -24,5 +24,8 @@ export const uiAssets = {
 };
 
 export const soundAssets = {
+  sfx: {
+    trainRun: "assets/sound/SFX/TrainRun.wav"
+  },
   menuMusic: "assets/sound/Menu_Music.ogg"
 };
