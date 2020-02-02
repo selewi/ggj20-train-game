@@ -27,7 +27,7 @@ export class TrackManager extends GameObject {
     const eightNoteAmountPerSection = 16;
     const distanceBetweenTables = 200;
     const tablesStartingX = 500;
-    const tablesY = 550;
+    const tablesY = 500;
 
     let currentTablesStartingX = tablesStartingX;
 
