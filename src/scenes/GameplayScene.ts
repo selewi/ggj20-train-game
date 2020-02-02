@@ -1,32 +1,35 @@
 import * as Phaser from "phaser";
 import { HUDScene, HUDSceneEvents } from "./HUDScene";
-import { Skull } from "../game-objects/Skull";
+import { Background } from "../game-objects/Background";
+import { Particles } from "../game-objects/Particles";
 
 export class GameplayScene extends Phaser.Scene {
   private score: number = 0;
-
   private hud: Phaser.Scene;
-  private skull = new Skull();
+  private background = new Background();
+  private particles = new Particles();
 
   constructor() {
     super(sceneConfig);
   }
 
   public preload() {
-    this.skull.load(this);
+    this.background.load(this);
+    this.particles.load(this);
   }
 
   public create() {
-    this.skull.initialize(this);
+    this.background.initialize(this);
+    this.particles.initialize(this);
     this.hud = this.scene.get(HUDScene.name);
     this.scene.launch(HUDScene.name);
 
-    this.add.rectangle(400, 400, 100, 100, 0xffffff);
     this.input.on("pointerdown", this.addScore);
   }
 
   public update(dt: number) {
     // TODO
+    this.background.moveBackground();
   }
 
   private addScore = () => {
