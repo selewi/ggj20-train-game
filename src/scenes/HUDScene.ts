@@ -1,15 +1,23 @@
 import * as Phaser from "phaser";
 import { startingLives } from "../data/Global";
+import { uiAssets } from "../../assets/";
 
 export enum HUDSceneEvents {
   reduceLife = "reduceLife"
 }
 
 export class HUDScene extends Phaser.Scene {
+  private static vignetteKey = uiAssets.vignette.toString();
+
   private livesText: Phaser.GameObjects.Text;
+  private vignette: Phaser.GameObjects.Image;
 
   constructor() {
     super(sceneConfig);
+  }
+
+  public preload() {
+    this.load.image(HUDScene.vignetteKey, uiAssets.vignette);
   }
 
   public create() {
@@ -19,6 +27,13 @@ export class HUDScene extends Phaser.Scene {
     });
 
     this.events.on(HUDSceneEvents.reduceLife, this.showLives);
+
+    this.vignette = this.add.image(0, 0, uiAssets.vignette);
+    this.vignette.setOrigin(0, 0);
+    this.vignette.setDisplaySize(1280, 720);
+    // this.vignette.setBlendMode(Phaser.BlendModes.DIFFERENCE);
+
+    console.log(this.vignette);
   }
 
   public showLives = (amount: number) => {
