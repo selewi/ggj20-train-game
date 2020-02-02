@@ -23,8 +23,13 @@ export class MenuScene extends Phaser.Scene {
   }
 
   public create() {
-    this.track = this.sound.add(this.musicAssetKey, { loop: true });
+    this.track = this.sound.add(this.musicAssetKey, { loop: true, volume: 0 });
     this.track.play();
+    this.tweens.add({
+      targets: this.track,
+      volume: 1,
+      duration: 500
+    });
 
     this.playButton.initialize(this, {
       text: "Start Ride",

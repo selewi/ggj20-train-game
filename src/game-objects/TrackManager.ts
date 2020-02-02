@@ -8,7 +8,8 @@ export class TrackManager extends GameObject {
 
   private railTables: TableGroup;
 
-  private readonly track: string = "track";
+  private readonly trackKey: string = "track";
+  private readonly beepKey: string = "beep";
   private trackMusic: Phaser.Sound.BaseSound;
   private trackSeconds: number = 0;
   private trackErrorMargin: number = 0.1;
@@ -16,12 +17,12 @@ export class TrackManager extends GameObject {
 
   public load = (scene: Phaser.Scene, newTrackData: TrackData) => {
     this.trackData = newTrackData;
-    scene.load.audio(this.track, this.trackData.track);
-    //scene.load.audio(this.spark, "");
+    scene.load.audio(this.trackKey, this.trackData.track);
+    scene.load.audio(this.beepKey, "assets/sound/sfx/beep.wav");
   };
 
   public initialize = (scene: Phaser.Scene) => {
-    this.trackMusic = scene.sound.add(this.track);
+    this.trackMusic = scene.sound.add(this.trackKey);
 
     this.trackMusic.play();
 
@@ -30,7 +31,7 @@ export class TrackManager extends GameObject {
     const eightNoteAmountPerSection = 16;
     const distanceBetweenTables = 200;
     const tablesStartingX = 500;
-    const tablesY = 550;
+    const tablesY = 500;
 
     let currentTablesStartingX = tablesStartingX;
 
