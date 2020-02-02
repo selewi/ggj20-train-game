@@ -3,11 +3,14 @@ import { Button } from "../UI/Button";
 import { Title } from "../UI/Title";
 import { GameplayScene } from "./GameplayScene";
 import { game } from "../main";
-import { soundAssets } from "../../assets/";
+import { soundAssets, uiAssets } from "../../assets/";
 
 export class MenuScene extends Phaser.Scene {
   private musicAssetKey = soundAssets.menuMusic.toString();
+  private backgroundKey = uiAssets.background.toString();
+
   private track: Phaser.Sound.BaseSound;
+  private background: Phaser.GameObjects.Image;
 
   private playButton: Button = new Button();
   private title: Title = new Title();
@@ -17,6 +20,7 @@ export class MenuScene extends Phaser.Scene {
   }
 
   public preload() {
+    this.load.image(this.backgroundKey, uiAssets.background);
     this.playButton.load(this);
     this.load.audio(this.musicAssetKey, soundAssets.menuMusic);
     this.title.load(this);
@@ -47,6 +51,12 @@ export class MenuScene extends Phaser.Scene {
         y: game.scale.height * 0.25
       }
     });
+
+    this.background = this.add.image(0, 0, uiAssets.background);
+    this.background.setOrigin(0, 0);
+    this.background.setDisplaySize(1280, 720);
+    this.background.alpha = 0.9;
+    this.background.setDepth(-1);
   }
 
   private startGame = () => {
