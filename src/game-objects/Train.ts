@@ -88,15 +88,15 @@ export class Train extends GameObject {
     this.characterSprite.anims.play(this.characterAnimations.repair);
 
     this.trainBodySprite = scene.physics.add
-      .sprite(0, 590, Train.bodySpriteKey)
+      .sprite(-80, 590, Train.bodySpriteKey)
       .setDepth(zIndex.train);
 
     this.grillSprite = scene.physics.add
-      .sprite(40, 570, Train.grillSpriteKey)
+      .sprite(-60, 570, Train.grillSpriteKey)
       .setDepth(zIndex.grill);
 
     this.tailpipeSprite = scene.physics.add
-      .sprite(-435, 525, Train.tailpipeSpriteKey)
+      .sprite(-300, 525, Train.tailpipeSpriteKey)
       .setDepth(zIndex.tailpipe);
 
     this.fadeoutRunAudioTween = scene.tweens.add({
@@ -149,6 +149,7 @@ export class Train extends GameObject {
 
     this.trainParts.forEach(trainPart => {
       const localPosition = trainPart.getBottomCenter();
+
       trainPart.setPosition(
         localPosition.x,
         localPosition.y +
