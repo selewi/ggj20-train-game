@@ -1,6 +1,5 @@
 import * as Phaser from "phaser";
 import { Button } from "../UI/Button";
-import { Title } from "../UI/Title";
 import { GameplayScene } from "./GameplayScene";
 import { game } from "../main";
 import { soundAssets, uiAssets } from "../../assets/";
@@ -13,8 +12,6 @@ export class MenuScene extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
 
   private playButton: Button = new Button();
-  private title: Title = new Title();
-
   constructor() {
     super(sceneConfig);
   }
@@ -23,7 +20,6 @@ export class MenuScene extends Phaser.Scene {
     this.load.image(this.backgroundKey, uiAssets.background);
     this.playButton.load(this);
     this.load.audio(this.musicAssetKey, soundAssets.menuMusic);
-    this.title.load(this);
   }
 
   public create() {
@@ -39,17 +35,9 @@ export class MenuScene extends Phaser.Scene {
       text: "Start Ride",
       position: {
         x: game.scale.width / 2,
-        y: game.scale.height * 0.75
+        y: game.scale.height * 0.94
       },
       onClick: this.startGame
-    });
-
-    this.title.initialize(this, {
-      text: "Rail Rider",
-      position: {
-        x: game.scale.width / 2,
-        y: game.scale.height * 0.25
-      }
     });
 
     this.background = this.add.image(0, 0, uiAssets.background);

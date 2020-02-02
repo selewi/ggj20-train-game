@@ -24,7 +24,7 @@ export const uiAssets = {
     released: "assets/sprites/UI/button_released.png"
   },
   vignette: "assets/sprites/UI/vignette.png",
-  background: "assets/sprites/UI/backgroundMenu.png"
+  background: "assets/sprites/UI/backgroundMenu.jpg"
 };
 
 export const soundAssets = {
